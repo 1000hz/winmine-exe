@@ -1,19 +1,19 @@
-import { createComponent } from 'cf-style-container';
+import {createComponent} from "cf-style-container"
 
 const Square = createComponent(
-  ({ disabled }) => ({
+  ({disabled}) => ({
     width: 40,
     height: 40,
     padding: 10,
-    cursor: disabled ? 'initial' : 'pointer',
-    backgroundColor: disabled ? '#CCC' : '#FFF',
+    cursor: disabled ? "initial" : "pointer",
+    backgroundColor: disabled ? "#CCC" : "#FFF",
     border: `1px solid black`,
     lineHeight: 1,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 18
   }),
-  'div',
-  ['onClick', 'onContextMenu']
-);
+  "div",
+  ["onClick", "onContextMenu"]
+)
 
-export default Square;
+export default Square

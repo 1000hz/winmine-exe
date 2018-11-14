@@ -1,8 +1,8 @@
-import Document, { Head, Main, NextScript } from 'next/document';
-import { getInitialProps, getStyles } from 'cf-style-nextjs';
+import Document, {Head, Main, NextScript} from "next/document"
+import {getInitialProps, getStyles} from "cf-style-nextjs"
 
 export default class MyDocument extends Document {
-  static getInitialProps = getInitialProps();
+  static getInitialProps = getInitialProps()
 
   render() {
     return (
@@ -34,6 +34,6 @@ export default class MyDocument extends Document {
           <NextScript />
         </body>
       </html>
-    );
+    )
   }
 }
