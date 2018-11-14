@@ -1,0 +1,30 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "Minesweeper",
+  "main": "index.js",
+  "author": "Cina Saffary <cinasaffary@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "cf-style-container": "^6.0.1",
+    "cf-style-nextjs": "^1.0.0",
+    "next": "^4.2.3",
+    "prettier": "^1.8.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "uglifyjs-webpack-plugin": "^1.1.8"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.3",
+    "jest": "^22.4.3",
+    "regenerator-runtime": "^0.11.1"
+  }
+}
