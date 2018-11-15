@@ -1,23 +1,15 @@
-import Layout from "../components/layout"
+import {useState} from "react"
+import Layout from "~/components/layout"
+import Minesweeper from "~/components/Minesweeper/Minesweeper"
 
-// game components
-import Desk from "../components/desk"
-import Square from "../components/square"
-import Mine from "../components/mine"
-import Flag from "../components/flag"
+const BOARD_SIZE = 9
 
-const Index = () => (
-  <Layout title={`Minesweeper (active)`}>
-    <Desk boardSize={10}>
-      {[...Array(100).keys()].map(i => (
-        <Square key={i} disabled={i === 55 || i === 10}>
-          {i === 10 && <Mine />}
-          {i === 25 && <Flag />}
-          {i === 77 ? "4" : ""}
-        </Square>
-      ))}
-    </Desk>
-  </Layout>
-)
+const Index = () => {
+  return (
+    <Layout title={`Minesweeper (active)`}>
+      <Minesweeper size={BOARD_SIZE} />
+    </Layout>
+  )
+}
 
 export default Index
