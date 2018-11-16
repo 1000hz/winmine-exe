@@ -2,16 +2,17 @@ import React from "react"
 import styled, {css} from "styled-components"
 import Flag from "./flag"
 
-export const squareSize = 25
+export const squareSize = 16
 
 export const borderStyles = {
   initial: css`
-    border: 3px solid ${props => props.theme.colors.gray[3]};
-    border-right-color: ${props => props.theme.colors.gray[1]};
-    border-bottom-color: ${props => props.theme.colors.gray[1]};
+    border: 1px solid ${props => props.theme.colors.gray[3]};
+    border-right-color: ${props => props.theme.colors.gray[0]};
+    border-bottom-color: ${props => props.theme.colors.gray[0]};
+    box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[1]};
   `,
   clicked: css`
-    border: 2px solid ${props => props.theme.colors.gray[1]};
+    border: 1px dotted ${props => props.theme.colors.gray[0]};
     border-right: none;
     border-bottom: none;
   `
@@ -32,7 +33,8 @@ const StyledSquare = styled.button.attrs({
   ${props => (props.clicked ? borderStyles.clicked : borderStyles.initial)};
   line-height: 1;
   text-align: center;
-  font-size: 18px;
+  font-size: 12px;
+  font-weight: bold;
   outline: none;
   user-select: none;
 `
