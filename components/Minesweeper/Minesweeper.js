@@ -14,6 +14,10 @@ const Minesweeper = ({size}) => {
   const [clicked, setClicked] = useState([].fill(false))
 
   const onClick = key => e => {
+    if (exploded || e.button !== 0) {
+      return false
+    }
+
     const square = board.squares[key]
     setClicked(clicked => {
       clicked[key] = true
