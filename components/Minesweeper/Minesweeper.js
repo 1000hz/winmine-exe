@@ -2,7 +2,7 @@ import {useState, useCallback} from "react"
 
 // game components
 import Board from "./Board"
-import Square from "./_Square"
+import Square from "./Square"
 import Mine from "./mine"
 import SevenSegmentDisplay from "./SevenSegmentDisplay"
 import * as models from "~/components/Minesweeper/models"
