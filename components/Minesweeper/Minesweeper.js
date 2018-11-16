@@ -1,16 +1,16 @@
 import {useState, useCallback} from "react"
 
 // game components
-import Desk from "./desk"
+import Board from "./Board"
 import Square from "./square"
 import Mine from "./mine"
 import SevenSegmentDisplay from "./SevenSegmentDisplay"
-import Board from "~/lib/Board"
+import * as models from "~/components/Minesweeper/models"
 import useAudio from "~/lib/useAudio"
 
 const Minesweeper = ({size}) => {
   const [exploded, setExploded] = useState(null)
-  const [board, setBoard] = useState(new Board(size, size, 10))
+  const [board, setBoard] = useState(new models.Board(size, size, 10))
   const [flagged, setFlagged] = useState([].fill(false))
   const [clicked, setClicked] = useState([].fill(false))
 
@@ -51,7 +51,7 @@ const Minesweeper = ({size}) => {
     <>
       <SevenSegmentDisplay value="000" />
       <button onClick={() => (audio.paused ? audio.play() : audio.load())}>ENO</button>
-      <Desk className="Desk" boardSize={size}>
+      <Board width={size} height={size}>
         {board.squares.map((square, i) => (
           <Square
             square={square}
@@ -65,7 +65,7 @@ const Minesweeper = ({size}) => {
             {square.mine ? <Mine /> : square.surroundingMines ? square.surroundingMines : ""}
           </Square>
         ))}
-      </Desk>
+      </Board>
     </>
   )
 }

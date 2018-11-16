@@ -1,4 +1,4 @@
-import {Board, Square} from "./Board"
+import {Board, Square} from "./models"
 
 describe("Square", () => {
   test("assigns values from its constructor", () => {
