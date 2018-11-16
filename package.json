@@ -16,8 +16,6 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
     "babel-plugin-root-import": "^6.1.0",
-    "cf-style-container": "^6.0.1",
-    "cf-style-nextjs": "^1.0.0",
     "invariant": "^2.2.4",
     "lodash-es": "^4.17.11",
     "next": "^7.0.2",

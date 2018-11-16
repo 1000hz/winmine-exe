@@ -1,11 +1,15 @@
-import {createComponent} from "cf-style-container"
+import styled from "styled-components"
+import {borderStyles, squareSize} from "./square"
 
-const Desk = createComponent(({boardSize}) => ({
-  width: 40 * boardSize + 2,
-  height: 40 * boardSize + 2,
-  border: `1px solid black`,
-  display: "flex",
-  flexWrap: "wrap"
-}))
+const Desk = styled.div`
+  width: ${props => squareSize * props.boardSize}px;
+  height: ${props => squareSize * props.boardSize}px;
+  display: flex;
+  flex-wrap: wrap;
+
+  :active .Square:hover {
+    ${borderStyles.clicked};
+  }
+`
 
 export default Desk

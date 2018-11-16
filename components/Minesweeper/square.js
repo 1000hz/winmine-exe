@@ -1,45 +1,48 @@
-import React, {useState} from "react"
-import {createComponent} from "cf-style-container"
+import React from "react"
+import styled, {css} from "styled-components"
 import Flag from "./flag"
 
-const borderStyle = clicked => {
-  return clicked
-    ? {
-        borderTop: "2px solid #999",
-        borderRight: "none",
-        borderBottom: "none",
-        borderLeft: "2px solid #999"
-      }
-    : {
-        borderWidth: 4,
-        borderStyle: "solid",
-        borderTopColor: "#fff",
-        borderRightColor: "#999",
-        borderBottomColor: "#999",
-        borderLeftColor: "#fff"
-      }
+export const squareSize = 25
+
+export const borderStyles = {
+  initial: css`
+    border: 3px solid ${props => props.theme.colors.gray[3]};
+    border-right-color: ${props => props.theme.colors.gray[1]};
+    border-bottom-color: ${props => props.theme.colors.gray[1]};
+  `,
+  clicked: css`
+    border: 2px solid ${props => props.theme.colors.gray[1]};
+    border-right: none;
+    border-bottom: none;
+  `
 }
 
-const styles = ({clicked, exploded}) => ({
-  width: 40,
-  height: 40,
-  padding: 10,
-  cursor: clicked ? "initial" : "pointer",
-  backgroundColor: exploded ? "#fc0d1b" : "#ccc",
-  ...borderStyle(clicked),
-  ".Desk:active :hover": borderStyle(true),
-  lineHeight: 1,
-  textAlign: "center",
-  fontSize: 18,
-  outline: "none"
-})
+const StyledSquare = styled.button.attrs({
+  type: "button",
+  className: "Square"
+})`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${squareSize}px;
+  height: ${squareSize}px;
+  padding: 0;
+  cursor: ${props => (props.clicked ? "initial" : "pointer")};
+  background-color: ${props => (props.exploded ? props.theme.colors.red : props.theme.colors.gray[2])};
+  ${props => (props.clicked ? borderStyles.clicked : borderStyles.initial)};
+  line-height: 1;
+  text-align: center;
+  font-size: 18px;
+  outline: none;
+  user-select: none;
+`
 
-const Square = ({onClick, onContextMenu, flag, clicked, className, children}) => {
+const Square = ({onClick, onContextMenu, flag, clicked, exploded, children}) => {
   return (
-    <button type="button" className={className} onClick={onClick} onContextMenu={onContextMenu}>
+    <StyledSquare onMouseUp={onClick} onContextMenu={onContextMenu} clicked={clicked} exploded={exploded}>
       {clicked ? children : flag ? <Flag /> : undefined}
-    </button>
+    </StyledSquare>
   )
 }
 
-export default createComponent(styles, Square, ["onClick", "onContextMenu", "children", "clicked", "flag"])
+export default Square
