@@ -1,14 +1,13 @@
-import {useState} from "react"
-import Layout from "~/components/layout"
+import Desktop from "~/components/Desktop"
 import Minesweeper from "~/components/Minesweeper/Minesweeper"
 
 const BOARD_SIZE = 9
 
 const Index = () => {
   return (
-    <Layout title={`Minesweeper (active)`}>
+    <Desktop>
       <Minesweeper size={BOARD_SIZE} />
-    </Layout>
+    </Desktop>
   )
 }
 

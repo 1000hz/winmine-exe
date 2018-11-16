@@ -1,10 +1,9 @@
 import Document, {Head, Main, NextScript} from "next/document"
-import {getInitialProps, getStyles} from "cf-style-nextjs"
 import {ServerStyleSheet} from "styled-components"
+import win95Theme from "~/lib/win95Theme"
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
-    const cfInitialProps = getInitialProps()(ctx)
     const sheet = new ServerStyleSheet()
 
     const originalRenderPage = ctx.renderPage
@@ -14,7 +13,7 @@ export default class MyDocument extends Document {
       })
 
     const initialProps = await Document.getInitialProps(ctx)
-    return {...initialProps, styles: [...initialProps.styles, ...sheet.getStyleElement()], cfInitialProps}
+    return {...initialProps, styles: [...initialProps.styles, ...sheet.getStyleElement()]}
   }
 
   render() {
@@ -30,17 +29,11 @@ export default class MyDocument extends Document {
                 * { box-sizing: border-box; }
                 body {
                   margin: 0;
-                  background: #11807F;
-                  color: #fff;
                 }
-                html {
-                  font-family: Tahoma, "Microsoft Sans Serif", sans-serif;
-                  -webkit-font-smoothing: none;
-                }
+                ${win95Theme.fontFaces["MS Sans Serif"]}
                `
             }}
           />
-          {getStyles(this.props.cfInitialProps)}
         </Head>
         <body>
           <Main />
