@@ -1,8 +1,21 @@
 import Document, {Head, Main, NextScript} from "next/document"
 import {getInitialProps, getStyles} from "cf-style-nextjs"
+import {ServerStyleSheet} from "styled-components"
 
 export default class MyDocument extends Document {
-  static getInitialProps = getInitialProps()
+  static async getInitialProps(ctx) {
+    const cfInitialProps = getInitialProps()(ctx)
+    const sheet = new ServerStyleSheet()
+
+    const originalRenderPage = ctx.renderPage
+    ctx.renderPage = () =>
+      originalRenderPage({
+        enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+      })
+
+    const initialProps = await Document.getInitialProps(ctx)
+    return {...initialProps, styles: [...initialProps.styles, ...sheet.getStyleElement()], cfInitialProps}
+  }
 
   render() {
     return (
@@ -14,7 +27,7 @@ export default class MyDocument extends Document {
           <style
             dangerouslySetInnerHTML={{
               __html: `
-                *{ box-sizing: border-box; }
+                * { box-sizing: border-box; }
                 body {
                   margin: 0;
                   background: #11807F;
@@ -27,7 +40,7 @@ export default class MyDocument extends Document {
                `
             }}
           />
-          {getStyles(this.props)}
+          {getStyles(this.props.cfInitialProps)}
         </Head>
         <body>
           <Main />
