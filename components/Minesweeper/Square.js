@@ -28,7 +28,6 @@ const StyledSquare = styled.button.attrs({
   width: ${squareSize}px;
   height: ${squareSize}px;
   padding: 0;
-  cursor: ${props => (props.clicked ? "initial" : "pointer")};
   background-color: ${props => (props.exploded ? props.theme.colors.red : props.theme.colors.gray[2])};
   ${props => (props.clicked ? borderStyles.clicked : borderStyles.initial)};
   line-height: 1;
