@@ -3,6 +3,9 @@ import styled, {css} from "styled-components"
 const Button = styled.button.attrs({
   type: "button"
 })`
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 6px;
   padding: 6px;
   font-family: ${props => props.theme.fontFamilies.default};
