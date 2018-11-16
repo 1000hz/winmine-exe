@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import {borderStyles, squareSize} from "./square"
+import {borderStyles, squareSize} from "./Square"
 
-const Minefield = styled.div`
+const Board = styled.div`
   width: ${props => squareSize * props.width}px;
   height: ${props => squareSize * props.height}px;
   display: flex;
@@ -12,4 +12,4 @@ const Minefield = styled.div`
   }
 `
 
-export default Minefield
+export default Board
