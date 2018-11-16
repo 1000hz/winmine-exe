@@ -6,7 +6,6 @@ import Square from "./Square"
 import Mine from "./mine"
 import SevenSegmentDisplay from "./SevenSegmentDisplay"
 import * as models from "~/components/Minesweeper/models"
-import useAudio from "~/lib/useAudio"
 
 const Minesweeper = ({size}) => {
   const [exploded, setExploded] = useState(null)
@@ -46,11 +45,10 @@ const Minesweeper = ({size}) => {
       return flagged
     })
   }
-  const audio = useAudio("/static/startup.mp3")
+
   return (
     <>
       <SevenSegmentDisplay value="000" />
-      <button onClick={() => (audio.paused ? audio.play() : audio.load())}>ENO</button>
       <Board width={size} height={size}>
         {board.squares.map((square, i) => (
           <Square

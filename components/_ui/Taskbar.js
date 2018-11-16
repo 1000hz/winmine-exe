@@ -1,5 +1,7 @@
+import {useCallback} from "react"
 import styled from "styled-components"
 import Button from "~/components/_ui/Button"
+import useAudio from "~/lib/useAudio"
 
 const StyledTaskbar = styled.div`
   position: fixed;
@@ -31,10 +33,15 @@ const StartButton = styled(Button).attrs({
   font-weight: bold;
 `
 
-const Taskbar = ({tasks}) => (
-  <StyledTaskbar>
-    <StartButton />
-  </StyledTaskbar>
-)
+const Taskbar = ({tasks}) => {
+  const audio = useAudio("/static/startup.mp3")
+  const onStartButtonClick = useCallback(() => (audio.paused ? audio.play() : audio.load()))
+
+  return (
+    <StyledTaskbar>
+      <StartButton onClick={onStartButtonClick} />
+    </StyledTaskbar>
+  )
+}
 
 export default Taskbar
