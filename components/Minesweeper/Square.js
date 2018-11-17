@@ -12,9 +12,9 @@ export const borderStyles = {
     box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[1]};
   `,
   clicked: css`
-    border: 1px dotted ${props => props.theme.colors.gray[0]};
-    border-right: none;
-    border-bottom: none;
+    border: 1px solid ${props => props.theme.colors.gray[2]};
+    border-right: 1px dotted ${props => props.theme.colors.gray[0]};
+    border-bottom: 1px dotted ${props => props.theme.colors.gray[0]};
   `
 }
 
