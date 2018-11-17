@@ -65,10 +65,36 @@ const DEFAULT_TITLEBAR_BUTTONS = [
   <TitleBarButton key={2}>@</TitleBarButton>
 ]
 
-const Window = ({x, y, icon, title, titlebarButtons = DEFAULT_TITLEBAR_BUTTONS, task, children}) => {
+const MenuBar = styled.div`
+  display: flex;
+`
+
+const MenuBarItem = styled.button.attrs({
+  type: "button"
+})`
+  margin: 0;
+  padding: 6px;
+  color: ${props => props.theme.colors.gray[0]};
+  background: ${props => props.theme.colors.gray[2]};
+  border: 0;
+  font-family: ${props => props.theme.fontFamilies.default};
+  outline: none;
+
+  :hover {
+    color: ${props => props.theme.colors.gray[3]};
+    background: ${props => props.theme.colors.navy};
+  }
+`
+
+const Window = ({x, y, icon, title, titlebarButtons = DEFAULT_TITLEBAR_BUTTONS, menuItems, task, children}) => {
   return (
     <WindowFrame x={x} y={y}>
       <TitleBar active={true} title={title} buttons={titlebarButtons} icon={icon} />
+      {menuItems ? (
+        <MenuBar>{menuItems.map((menuItem, i) => <MenuBarItem key={i}>{menuItem}</MenuBarItem>)}</MenuBar>
+      ) : (
+        undefined
+      )}
       {children}
     </WindowFrame>
   )
