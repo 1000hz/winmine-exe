@@ -6,15 +6,15 @@ export const squareSize = 16
 
 export const borderStyles = {
   initial: css`
-    border: 1px solid ${props => props.theme.colors.gray[3]};
-    border-right-color: ${props => props.theme.colors.gray[0]};
-    border-bottom-color: ${props => props.theme.colors.gray[0]};
-    box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[1]};
+    border: 0;
+    box-shadow: inset -1px -1px ${props => props.theme.colors.gray[0]},
+      inset 1px 1px ${props => props.theme.colors.gray[3]}, inset -2px -2px ${props => props.theme.colors.gray[1]};
   `,
   clicked: css`
-    border: 1px solid ${props => props.theme.colors.gray[2]};
+    border: 1px solid transparent;
     border-right: 1px dotted ${props => props.theme.colors.gray[0]};
     border-bottom: 1px dotted ${props => props.theme.colors.gray[0]};
+    box-shadow: none;
   `
 }
 
