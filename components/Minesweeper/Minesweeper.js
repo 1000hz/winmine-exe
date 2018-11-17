@@ -1,6 +1,5 @@
 import {useState, useCallback} from "react"
-
-// game components
+import Window from "~/components/_ui/Window"
 import Board from "./Board"
 import Square from "./Square"
 import Mine from "./mine"
@@ -51,7 +50,7 @@ const Minesweeper = ({size}) => {
   }
 
   return (
-    <>
+    <Window title="Minesweeper Cool Game With A Really Long Name" icon="/static/minesweeper_sm.png" x={300} y={200}>
       <SevenSegmentDisplay value="000" />
       <Board width={size} height={size}>
         {board.squares.map((square, i) => (
@@ -68,7 +67,7 @@ const Minesweeper = ({size}) => {
           </Square>
         ))}
       </Board>
-    </>
+    </Window>
   )
 }
 
