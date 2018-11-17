@@ -17,6 +17,7 @@ const StyledTitleBar = styled.div`
   display: grid;
   grid-template-columns: min-content fit-content(100%) auto;
   align-items: center;
+  justify-items: end;
   height: 18px;
   padding: 1px 3px 2px 2px;
   color: ${props => (props.active ? props.theme.colors.gray[3] : props.theme.colors.gray[2])};
@@ -36,18 +37,25 @@ const Title = styled.div`
   white-space: nowrap;
 `
 
-const TitleBarButton = styled(Button)`
+const TitleBarButton = styled.button`
   margin: 0;
   padding: 2px;
   width: 16px;
   height: 14px;
+  font-family: ${props => props.theme.fontFamilies.default};
+  font-size: 8px;
+  background: ${props => props.theme.colors.gray[2]};
+  border: 0;
+  box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[0]},
+    inset 1px 1px 0 ${props => props.theme.colors.gray[3]}, inset -2px -2px 0 ${props => props.theme.colors.gray[1]};
+  outline: none;
 
   :active {
     padding: 3px 1px 1px 3px;
-  }
-
-  :focus:after {
-    content: unset;
+    box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[3]},
+      inset 1px 1px 0 ${props => props.theme.colors.gray[0]}, inset -2px -2px 0 ${props => props.theme.colors.gray[2]},
+      inset 2px 2px 0 ${props => props.theme.colors.gray[1]};
+    vertical-align: top;
   }
 `
 
