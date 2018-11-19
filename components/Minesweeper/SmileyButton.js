@@ -20,7 +20,7 @@ const Button = styled.button.attrs({
     inset -2px -2px ${props => props.theme.colors.gray[1]},
     1px 1px ${props => props.theme.colors.gray[1]};
 
-  &.win95-activeClick {
+  &.win95-activeClick--src.win95-activeClick--target {
     transform: translate3d(1px, 1px, 0);
     box-shadow: inset -1px -1px ${props => props.theme.colors.gray[1]},
       inset 1px 1px ${props => props.theme.colors.gray[0]},
