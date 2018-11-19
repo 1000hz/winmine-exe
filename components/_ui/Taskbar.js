@@ -17,7 +17,7 @@ const StyledTaskbar = styled.div`
 `
 
 const StartMenuIcon = styled.img.attrs({
-  src: "/static/flag.png"
+  src: require("~/static/flag.png")
 })`
   margin-right: 3px;
 `

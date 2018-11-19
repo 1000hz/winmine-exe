@@ -60,11 +60,17 @@ const Minesweeper = ({size}) => {
   }
 
   return (
-    <Window title="Minesweeper" icon="/static/minesweeper_sm.png" x={300} y={200} menuItems={["Game", "Help"]}>
       <Well outset depth={3} margin="0 2px 0 0">
         <Well depth={2} margin="6px">
           <SevenSegmentDisplay value="000" />
         </Well>
+    <Window
+      title="Minesweeper"
+      icon={require("./images/icon-sm.png")}
+      x={300}
+      y={200}
+      menuItems={["Game", "Help"]}
+    >
         <Well depth={3} margin="6px">
           <Board width={size} height={size}>
             {board.squares.map((square, i) => (
