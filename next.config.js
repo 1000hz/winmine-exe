@@ -1,21 +1,9 @@
 const Uglify = require("uglifyjs-webpack-plugin")
-const withTM = require("next-plugin-transpile-modules")
+const withPlugins = require("next-compose-plugins")
+const transpileModules = require("next-plugin-transpile-modules")
+const optimizedImages = require("next-optimized-images")
 
-const transpileOptions = withTM({
-  transpileModules: ["lodash-es"]
-})
-
-module.exports = transpileOptions
-
-if (process.env.NODE_ENV === "production") {
-  module.exports = {
-    webpack: function(c) {
-      c.plugins = c.plugins.filter(plugin => plugin.constructor.name !== "UglifyJsPlugin")
-
-      c.plugins.push(new Uglify())
-
-      return c
-    },
-    ...transpileOptions
-  }
-}
+module.exports = withPlugins([
+  [transpileModules, {transpileModules: ["lodash-es"]}],
+  [optimizedImages]
+])
