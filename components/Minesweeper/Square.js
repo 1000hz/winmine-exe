@@ -1,7 +1,6 @@
 import React from "react"
 import styled, {css} from "styled-components"
-import Flag from "./flag"
-
+import {MineCount, Mine, Flag, Question, X} from "./Icons"
 export const squareSize = 16
 
 export const borderStyles = {
