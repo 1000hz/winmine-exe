@@ -1,7 +1,9 @@
 import React from "react"
 import styled, {ThemeProvider} from "styled-components"
 import win95Theme from "~/lib/win95Theme"
+import useEventListener from "~/lib/useEventListener"
 import Taskbar from "~/components/_ui/Taskbar"
+import {useActiveClickClassname} from "~/lib/useActiveClickClassname"
 
 const StyledDesktop = styled.div`
   height: 100vh;
@@ -18,15 +20,24 @@ const StyledDesktop = styled.div`
   * {
     cursor: inherit;
   }
+
+  img {
+    pointer-events: none;
+    image-rendering: pixelated;
+  }
 `
 
-const Desktop = ({children}) => (
-  <ThemeProvider theme={win95Theme}>
-    <StyledDesktop>
-      {children}
-      <Taskbar />
-    </StyledDesktop>
-  </ThemeProvider>
-)
+const Desktop = ({children}) => {
+  useEventListener("contextmenu", e => e.preventDefault())
+  useActiveClickClassname("win95-activeClick")
 
+  return (
+    <ThemeProvider theme={win95Theme}>
+      <StyledDesktop>
+        {children}
+        <Taskbar />
+      </StyledDesktop>
+    </ThemeProvider>
+  )
+}
 export default Desktop
