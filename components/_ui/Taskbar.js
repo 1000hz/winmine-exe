@@ -2,6 +2,7 @@ import {useState, useEffect, useCallback} from "react"
 import styled from "styled-components"
 import Button from "~/components/_ui/Button"
 import useAudio from "~/lib/useAudio"
+import useSystemTime from "~/lib/useSystemTime"
 
 const StyledTaskbar = styled.div`
   position: fixed;
@@ -45,30 +46,24 @@ const SystemTray = styled.div`
   border-bottom-color: ${props => props.theme.colors.gray[3]};
 `
 
-function useSystemTime() {
-  const [time, setTime] = useState(new Date())
-  useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 1000)
-    return () => clearInterval(interval)
-  }, [])
-
-  return time
-}
-
 const StyledClock = styled.div`
   margin: 0 6px;
 `
 
 const Clock = () => {
   const time = useSystemTime()
-  const locale = typeof navigator !== "undefined" ? navigator.language : "en-US"
-
-  return <StyledClock>{time.toLocaleTimeString(locale, {hour: "numeric", minute: "numeric"})}</StyledClock>
+  return (
+    <StyledClock>
+      {time.toLocaleTimeString(undefined, {hour: "numeric", minute: "numeric"})}
+    </StyledClock>
+  )
 }
 
 const Taskbar = ({tasks}) => {
-  const audio = useAudio("/static/startup.mp3")
-  const onStartButtonClick = useCallback(() => (audio.paused ? audio.play() : audio.load()))
+  const startupSound = useAudio("/static/sounds/startup.mp3")
+  const onStartButtonClick = useCallback(
+    () => (startupSound.paused ? startupSound.play() : startupSound.load())
+  )
 
   return (
     <StyledTaskbar>
