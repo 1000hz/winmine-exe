@@ -45,18 +45,38 @@ const TitleBarButton = styled.button`
   font-family: ${props => props.theme.fontFamilies.default};
   font-size: 8px;
   background: ${props => props.theme.colors.gray[2]};
+  background-size: 13px 11px;
+  background-position: 1px 1px;
   border: 0;
   box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[0]},
-    inset 1px 1px 0 ${props => props.theme.colors.gray[3]}, inset -2px -2px 0 ${props => props.theme.colors.gray[1]};
+    inset 1px 1px 0 ${props => props.theme.colors.gray[3]},
+    inset -2px -2px 0 ${props => props.theme.colors.gray[1]};
   outline: none;
 
-  :active {
+  &.win95-activeClick--src.win95-activeClick--target {
     padding: 3px 1px 1px 3px;
     box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[3]},
-      inset 1px 1px 0 ${props => props.theme.colors.gray[0]}, inset -2px -2px 0 ${props => props.theme.colors.gray[2]},
+      inset 1px 1px 0 ${props => props.theme.colors.gray[0]},
+      inset -2px -2px 0 ${props => props.theme.colors.gray[2]},
       inset 2px 2px 0 ${props => props.theme.colors.gray[1]};
+    background-position: 2px 2px;
     vertical-align: top;
   }
+`
+
+const MinimizeButton = styled(TitleBarButton)`
+  background-image: url(${require("./images/minimize.png")});
+`
+const MaximizeButton = styled(TitleBarButton)`
+  background-image: url(${({disabled}) =>
+    require(`./images/maximize${disabled ? "-disabled" : ""}.png`)});
+`
+const HelpButton = styled(TitleBarButton)`
+  background-image: url(${require("./images/help.png")});
+`
+const CloseButton = styled(TitleBarButton)`
+  background-image: url(${require("./images/close.png")});
+  margin-left: 2px;
 `
 
 const TitleBar = ({active, icon, title, buttons}) => (
@@ -67,11 +87,13 @@ const TitleBar = ({active, icon, title, buttons}) => (
   </StyledTitleBar>
 )
 
-const DEFAULT_TITLEBAR_BUTTONS = [
-  <TitleBarButton key={0}>@</TitleBarButton>,
-  <TitleBarButton key={1}>@</TitleBarButton>,
-  <TitleBarButton key={2}>@</TitleBarButton>
-]
+const DEFAULT_TITLEBAR_BUTTONS = (
+  <>
+    <MinimizeButton />
+    <MaximizeButton />
+    <CloseButton />
+  </>
+)
 
 const MenuBar = styled.div`
   display: flex;
@@ -98,12 +120,23 @@ const MenuBarItem = styled.button.attrs({
   }
 `
 
-const Window = ({x, y, icon, title, titlebarButtons = DEFAULT_TITLEBAR_BUTTONS, menuItems, task, children}) => {
+const Window = ({
+  x,
+  y,
+  icon,
+  title,
+  titlebarButtons = DEFAULT_TITLEBAR_BUTTONS,
+  menuItems,
+  task,
+  children
+}) => {
   return (
     <WindowFrame x={x} y={y}>
       <TitleBar active={true} title={title} buttons={titlebarButtons} icon={icon} />
       {menuItems ? (
-        <MenuBar>{menuItems.map((menuItem, i) => <MenuBarItem key={i}>{menuItem}</MenuBarItem>)}</MenuBar>
+        <MenuBar>
+          {menuItems.map((menuItem, i) => <MenuBarItem key={i}>{menuItem}</MenuBarItem>)}
+        </MenuBar>
       ) : (
         undefined
       )}
