@@ -55,7 +55,6 @@ const Minesweeper = () => {
       x={300}
       y={200}
       menuItems={["Game", "Help"]}
-      state={state}
     >
       <Well outset depth={3} margin="0 2px 0 0" onMouseDown={handlers.onGameMouseDown}>
         <StatusWell depth={2} margin="6px" padding="4px 7px 4px 5px">
