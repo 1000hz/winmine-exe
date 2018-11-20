@@ -152,8 +152,10 @@ function revealSafeNeighbors(state, id) {
 
     if (current.surroundingMines === 0) {
       current.neighbors.forEach(neighbor => {
-        !revealed[neighbor.id] && visited.push(neighbor)
-        revealed[neighbor.id] = true
+        if (!revealed[neighbor.id] && !flags[neighbor.id]) {
+          visited.push(neighbor)
+          revealed[neighbor.id] = true
+        }
       })
       revealed[current.id] = true
     }

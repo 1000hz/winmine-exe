@@ -62,11 +62,19 @@ describe("REVEAL_SQUARE", () => {
     expect(nextState.exploded).toBe(0)
   })
 
-  test("revealing a square with no surrounding mines also reveals all extended neighboring safe squares", () => {
+  test("revealing a square with no surrounding mines reveals all extended neighboring safe squares", () => {
     const state = generateBoardState(5, 5, [5, 6, 7, 8, 9])
     const nextState = reducer(state, action(15))
     expect(nextState.revealed.slice(0, 10).some(_ => _)).toBeFalsy()
     expect(nextState.revealed.slice(10).every(_ => _)).toBeTruthy()
+  })
+
+  test("a safe square that has been erroneously flagged does not get revealed by neighboring safe squares", () => {
+    const state = generateBoardState(5, 5, [5, 6, 7, 8, 9])
+    state.flags[24] = true
+    const nextState = reducer(state, action(15))
+    expect(nextState.revealed[24]).toBeFalsy()
+    expect(nextState.flags[24]).toBeTruthy()
   })
 
   test("revealing a mine on the first turn still reveals all neighboring safe squares", () => {
