@@ -1,4 +1,4 @@
-import {shuffle, take} from "lodash-es"
+import {shuffle, take, clone} from "lodash-es"
 import invariant from "invariant"
 
 const SURROUNDING_MINES = Symbol("Square#surroundingMines")
@@ -44,27 +44,41 @@ export class Square {
       return this[SURROUNDING_MINES]
     }
 
-    this[SURROUNDING_MINES] = this.neighbors.filter(square => square.mine).length
+    this[SURROUNDING_MINES] = this.neighbors.filter(
+      square => square.mine
+    ).length
     return this[SURROUNDING_MINES]
+  }
+
+  clone() {
+    const cloned = clone(this)
+    cloned[NEIGHBORS] = undefined
+    cloned[SURROUNDING_MINES] = undefined
+    return cloned
   }
 }
 
 export class Board {
-  constructor(height, width, numMines) {
-    invariant(height > 0 && width > 0, `Invalid dimensions (${height}x${width}) for board. Must be greater than zero.`)
+  constructor(height, width, mineCount) {
     invariant(
-      numMines > 0 && numMines <= (height - 1) * (width - 1),
-      `Invalid number of mines (${numMines}) for ${height}x${width} board. Minimum of 1 and maximum of (height - 1)x(width - 1).`
+      height > 0 && width > 0,
+      `Invalid dimensions (${height}x${width}) for board. Must be greater than zero.`
+    )
+    invariant(
+      mineCount > 0 && mineCount <= (height - 1) * (width - 1),
+      `Invalid number of mines (${mineCount}) for ${height}x${width} board. Minimum of 1 and maximum of (height - 1)x(width - 1).`
     )
 
     this.height = height
     this.width = width
-    this.numMines = numMines
+    this.mineCount = mineCount
     this.squares = [...Array(height * width)].map(
       (_, i) => new Square(this, Math.trunc(i % width), Math.trunc(i / height))
     )
 
-    take(shuffle(this.squares), numMines).forEach(square => (square.mine = true))
+    take(shuffle(this.squares), mineCount).forEach(
+      square => (square.mine = true)
+    )
   }
 
   get(x, y) {
@@ -81,6 +95,18 @@ export class Board {
     )
 
     return this[TO_ARRAY]
+  }
+
+  static generate({height, width, mineCount}) {
+    const squares = [...Array(height * width)].map(
+      (_, i) => new Square(this, Math.trunc(i % width), Math.trunc(i / height))
+    )
+
+    take(shuffle(this.squares), mineCount).forEach(
+      square => (square.mine = true)
+    )
+
+    return squares
   }
 }
 

@@ -7,15 +7,18 @@ export const borderStyles = {
   initial: css`
     border: 0;
     box-shadow: inset -1px -1px ${props => props.theme.colors.gray[0]},
-      inset 1px 1px ${props => props.theme.colors.gray[3]}, inset -2px -2px ${props => props.theme.colors.gray[1]};
+      inset 1px 1px ${props => props.theme.colors.gray[3]},
+      inset -2px -2px ${props => props.theme.colors.gray[1]};
   `,
-  clicked: css`
+  revealed: css`
     border: 1px solid transparent;
     border-right: 1px dotted ${props => props.theme.colors.gray[0]};
     border-bottom: 1px dotted ${props => props.theme.colors.gray[0]};
     box-shadow: none;
   `
 }
+
+const border = ({revealed}) => (revealed ? borderStyles.revealed : borderStyles.initial)
 
 const StyledSquare = styled.button.attrs({
   type: "button",
@@ -27,20 +30,60 @@ const StyledSquare = styled.button.attrs({
   width: ${squareSize}px;
   height: ${squareSize}px;
   padding: 0;
-  background-color: ${props => (props.exploded ? props.theme.colors.red : props.theme.colors.gray[2])};
-  ${props => (props.clicked ? borderStyles.clicked : borderStyles.initial)};
+  background-color: ${props =>
+    props.exploded ? props.theme.colors.red : props.theme.colors.gray[2]};
+  ${border};
   line-height: 1;
   text-align: center;
   font-size: 12px;
   font-weight: bold;
   outline: none;
   user-select: none;
+
+  :hover {
+    ${props => (props.isClicking ? borderStyles.revealed : "")};
+  }
 `
 
-const Square = ({onClick, onContextMenu, flag, clicked, exploded, children}) => {
+const Square = ({
+  onMouseDown,
+  onMouseUp,
+  onContextMenu,
+  isClicking,
+  square,
+  flag,
+  question,
+  revealed,
+  exploded,
+  disabled
+}) => {
   return (
-    <StyledSquare onMouseUp={onClick} onContextMenu={onContextMenu} clicked={clicked} exploded={exploded}>
-      {clicked ? children : flag ? <Flag /> : undefined}
+    <StyledSquare
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onContextMenu={onContextMenu}
+      revealed={revealed}
+      exploded={exploded}
+      disabled={disabled}
+      isClicking={isClicking && !flag}
+    >
+      {revealed ? (
+        square.mine ? (
+          flag ? (
+            <X />
+          ) : (
+            <Mine />
+          )
+        ) : (
+          <MineCount value={square.surroundingMines} />
+        )
+      ) : flag ? (
+        <Flag />
+      ) : question ? (
+        <Question />
+      ) : (
+        undefined
+      )}
     </StyledSquare>
   )
 }

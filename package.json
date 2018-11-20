@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "test": "jest",
-    "test:debug": "node --inspect ./node_modules/.bin/jest",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "now-build": "next build && next export -o dist"
   },
   "dependencies": {
