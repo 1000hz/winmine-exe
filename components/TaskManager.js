@@ -11,6 +11,13 @@ const TaskManager = ({children}) => {
   const [tasks, setTasks] = useState({})
 
   function createTask({application, isActive}) {
+    if (application.singleton) {
+      const running = Object.values(tasks).find(task => task.application === application)
+      if (running) {
+        return running.taskId
+      }
+    }
+
     const taskId = id()
     const windowRef = React.createRef()
     const taskbarRef = React.createRef()

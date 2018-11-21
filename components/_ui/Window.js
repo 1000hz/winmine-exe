@@ -1,3 +1,4 @@
+import {useRef, useEffect} from "react"
 import styled from "styled-components"
 
 export const WindowFrame = styled.div`
@@ -10,6 +11,7 @@ export const WindowFrame = styled.div`
   border-bottom-color: ${props => props.theme.colors.gray[0]};
   box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[1]},
     inset 1px 1px 0 ${props => props.theme.colors.gray[3]};
+  outline: 0;
 `
 
 const StyledTitleBar = styled.div`
@@ -129,8 +131,11 @@ const Window = ({
   task,
   children
 }) => {
+  const ref = useRef()
+  useEffect(() => ref.current.focus(), [])
+
   return (
-    <WindowFrame x={x} y={y}>
+    <WindowFrame ref={ref} x={x} y={y} tabIndex="0">
       <TitleBar active={true} title={title} buttons={titlebarButtons} icon={icon} />
       {menuItems ? (
         <MenuBar>

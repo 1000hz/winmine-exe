@@ -1,24 +1,31 @@
 import React, {useCallback} from "react"
 import styled from "styled-components"
+import DesktopIcon from "~/components/_ui/DesktopIcon"
+import Taskbar from "~/components/_ui/Taskbar/Taskbar"
 import Minesweeper from "~/components/Minesweeper/Minesweeper"
 import useEventListener from "~/lib/useEventListener"
 import useTimeout from "~/lib/useTimeout"
 import {useTaskManager} from "~/lib/useTaskManager"
-import Taskbar from "~/components/_ui/Taskbar/Taskbar"
 
 const StyledDesktop = styled.div`
   display: grid;
+  grid-auto-columns: 64px;
+  grid-auto-rows: 64px;
+  padding: 2px 4px;
 `
+
+const appShortcuts = [Minesweeper]
 
 const Desktop = ({children}) => {
   const {tasks, createTask} = useTaskManager()
-  useTimeout(() => createTask({application: Minesweeper, isActive: true}), 500)
   useEventListener("contextmenu", useCallback(e => e.preventDefault(), []))
 
   return (
     <>
       {Object.values(tasks).map(task => <task.application key={task.id} task={task} />)}
-      <StyledDesktop />
+      <StyledDesktop>
+        {appShortcuts.map((app, id) => <DesktopIcon key={id} application={app} />)}
+      </StyledDesktop>
       <Taskbar tasks={tasks} />
     </>
   )

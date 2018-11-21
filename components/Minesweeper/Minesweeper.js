@@ -100,5 +100,6 @@ const Minesweeper = () => {
 Minesweeper.title = "Minesweeper"
 Minesweeper.iconSmall = require("./images/icon-sm.png")
 Minesweeper.iconLarge = require("./images/icon-lg.png")
+Minesweeper.singleton = true
 
 export default Minesweeper

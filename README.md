@@ -33,7 +33,6 @@ This thing is fun to build, so the project will grow to encompass more and more 
 
 Expect things like:
 
-* A functioning Desktop with shortcut icons.
 * A LocalStorage "file system."
 * Functioning application menus.
 * A Task manager to launch and keep track of running applications in the taskbar.
