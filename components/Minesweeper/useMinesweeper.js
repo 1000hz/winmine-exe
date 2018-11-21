@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect, useReducer, useCallback} from "react"
 import useTimeout from "~/lib/useTimeout"
 import {reducer, defaultState} from "./reducer"
+import useEventListener from "~/lib/useEventListener"
 
 const useMinesweeper = settings => {
   const [state, dispatch] = useReducer(reducer, defaultState, {
@@ -21,9 +22,7 @@ const useMinesweeper = settings => {
   )
 
   const [clickTarget, setClickTarget] = useState(null)
-  useEffect(() => {
-    document.addEventListener("mouseup", e => setClickTarget(null))
-  }, [])
+  useEventListener("mouseup", useCallback(e => setClickTarget(null), []))
 
   const handlers = {
     onSquareMouseDown: id => e => {
