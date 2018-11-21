@@ -14,6 +14,7 @@ const Windows95 = styled.div`
   font-size: ${win95Theme.fontSizes[0]};
   user-select: none;
   cursor: ${win95Theme.cursors.default};
+  cursor: ${win95Theme.cursors.webkitDefault};
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
 
