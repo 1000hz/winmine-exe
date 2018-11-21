@@ -119,7 +119,7 @@ const MenuBarItem = styled.button.attrs({
   type: "button"
 })`
   margin: 1px 0;
-  padding: 4px 6px;
+  padding: 3px 6px;
   color: ${props => props.theme.colors.gray[0]};
   background: ${props => props.theme.colors.gray[2]};
   border: 0;
