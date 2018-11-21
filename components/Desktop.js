@@ -1,43 +1,27 @@
-import React from "react"
-import styled, {ThemeProvider} from "styled-components"
-import win95Theme from "~/lib/win95Theme"
+import React, {useCallback} from "react"
+import styled from "styled-components"
+import Minesweeper from "~/components/Minesweeper/Minesweeper"
 import useEventListener from "~/lib/useEventListener"
-import Taskbar from "~/components/_ui/Taskbar"
-import {useActiveClickClassname} from "~/lib/useActiveClickClassname"
+import useTimeout from "~/lib/useTimeout"
+import {useTaskManager} from "~/lib/useTaskManager"
+import Taskbar from "~/components/_ui/Taskbar/Taskbar"
 
 const StyledDesktop = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background: ${props => props.theme.colors.teal};
-  color: ${props => props.theme.colors.gray[3]};
-  overflow: hidden;
-  font-family: ${props => props.theme.fontFamilies.default};
-  font-size: ${props => props.theme.fontSizes[0]};
-  user-select: none;
-  cursor: ${props => props.theme.cursors.default};
-  -webkit-font-smoothing: none;
-
-  * {
-    cursor: inherit;
-  }
-
-  img {
-    pointer-events: none;
-    image-rendering: pixelated;
-  }
+  display: grid;
 `
 
 const Desktop = ({children}) => {
-  useEventListener("contextmenu", e => e.preventDefault())
-  useActiveClickClassname("win95-activeClick")
+  const {tasks, createTask} = useTaskManager()
+  useTimeout(() => createTask({application: Minesweeper, isActive: true}), 500)
+  useEventListener("contextmenu", useCallback(e => e.preventDefault(), []))
 
   return (
-    <ThemeProvider theme={win95Theme}>
-      <StyledDesktop>
-        {children}
-        <Taskbar />
-      </StyledDesktop>
-    </ThemeProvider>
+    <>
+      {Object.values(tasks).map(task => <task.application key={task.id} task={task} />)}
+      <StyledDesktop />
+      <Taskbar tasks={tasks} />
+    </>
   )
 }
+
 export default Desktop

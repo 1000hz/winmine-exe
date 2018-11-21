@@ -66,7 +66,6 @@ describe("REVEAL_SQUARE", () => {
     const state = generateBoardState(5, 5, [0, 15, 20])
     let nextState = reducer(state, action(1))
     nextState = reducer(nextState, action(0))
-    console.log(nextState.revealed)
     expect([0, 15, 20].every(id => nextState.revealed[id])).toBeTruthy()
   })
 

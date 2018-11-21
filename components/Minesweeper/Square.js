@@ -57,7 +57,6 @@ const Square = React.memo(
     disabled,
     isBoardClicked
   }) => {
-    console.log("Square render!")
     const child =
       disabled && flag && !square.mine ? (
         <X />
