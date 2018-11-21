@@ -1,5 +1,6 @@
-import styled, {ThemeProvider} from "styled-components"
+import styled, {ThemeProvider, keyframes} from "styled-components"
 import win95Theme from "~/lib/win95Theme"
+import cursorLoadAnimation from "~/lib/cursorLoadAnimation"
 import Desktop from "~/components/Desktop"
 import TaskManager from "~/components/TaskManager"
 import useMouseButtonIdentifier from "~/lib/useMouseButtonIdentifier"
@@ -25,6 +26,10 @@ const Windows95 = styled.div`
   img {
     pointer-events: none;
     image-rendering: pixelated;
+  }
+
+  .isLoadingApplication & {
+    animation: ${cursorLoadAnimation} 2s;
   }
 `
 
