@@ -30,6 +30,7 @@ export default class MyDocument extends Document {
                 * { box-sizing: border-box; }
                 body {
                   margin: 0;
+                  overflow: hidden;
                 }
                 ${win95Theme.fontFaces["MS Sans Serif"]}
                `
