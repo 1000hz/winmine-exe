@@ -10,9 +10,9 @@ const Smiley = styled.img`
   height: 17px;
 `
 
-export const MineCount = styled(Icon).attrs({
-  src: ({value}) => (value ? require(`./images/${value}.png`) : "")
-})``
+export const MineCount = styled(Icon).attrs(props => ({
+  src: props.value ? require(`./images/${props.value}.png`) : ""
+}))``
 
 export const Mine = styled(Icon).attrs({
   src: require("./images/mine.png")

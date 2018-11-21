@@ -77,10 +77,10 @@ function segmentPosition({index, height, width, active}) {
   )
 }
 
-const Segment = styled.div.attrs({
-  height: props => props.size,
-  width: props => props.size * 3
-})`
+const Segment = styled.div.attrs(props => ({
+  height: props.size,
+  width: props.size * 3
+}))`
   position: absolute;
   height: 1px;
   width: 1px;
