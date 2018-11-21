@@ -13,6 +13,7 @@ const Windows95 = styled.div`
   font-family: ${win95Theme.fontFamilies.default};
   font-size: ${win95Theme.fontSizes[0]};
   user-select: none;
+  cursor: ${win95Theme.cursors.webkitDefault};
   cursor: ${win95Theme.cursors.default};
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
