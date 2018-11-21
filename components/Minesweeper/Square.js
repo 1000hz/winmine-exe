@@ -40,50 +40,51 @@ const StyledSquare = styled.button.attrs({
   outline: none;
   user-select: none;
 
-  ${Board}:active &:hover {
-    ${({flag}) => (flag ? "" : borderStyles.revealed)};
+  .isLeftClicking ${Board}:active &:hover {
+    ${props => (props.flag ? "" : borderStyles.revealed)};
   }
 `
 
-const Square = ({
-  onMouseDown,
-  onMouseUp,
-  onContextMenu,
-  square,
-  flag,
-  question,
-  revealed,
-  exploded,
-  disabled
-}) => {
-  return (
-    <StyledSquare
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onContextMenu={onContextMenu}
-      revealed={revealed}
-      exploded={exploded}
-      disabled={disabled}
-    >
-      {revealed ? (
-        square.mine ? (
-          flag ? (
-            <X />
-          ) : (
-            <Mine />
-          )
-        ) : (
-          <MineCount value={square.surroundingMines} />
-        )
-      ) : flag ? (
+const Square = React.memo(
+  ({
+    onMouseUp,
+    onContextMenu,
+    square,
+    flag,
+    question,
+    revealed,
+    exploded,
+    disabled,
+    isBoardClicked
+  }) => {
+    console.log("Square render!")
+    const child =
+      disabled && flag && !square.mine ? (
+        <X />
+      ) : (flag && !revealed) || (flag && square.mine) ? (
         <Flag />
+      ) : revealed && square.mine && !flag ? (
+        <Mine />
+      ) : revealed ? (
+        <MineCount value={square.surroundingMines} />
       ) : question ? (
         <Question />
       ) : (
         undefined
-      )}
-    </StyledSquare>
-  )
-}
+      )
+
+    return (
+      <StyledSquare
+        onMouseUp={isBoardClicked ? onMouseUp : undefined}
+        onContextMenu={onContextMenu}
+        revealed={(revealed && !flag) || (disabled && flag && !square.mine)}
+        exploded={exploded}
+        disabled={disabled}
+      >
+        {child}
+      </StyledSquare>
+    )
+  }
+)
 
 export default Square

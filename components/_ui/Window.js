@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import Button from "~/components/_ui/Button"
 
 export const WindowFrame = styled.div`
   position: absolute;
@@ -53,7 +52,7 @@ const TitleBarButton = styled.button`
     inset -2px -2px 0 ${props => props.theme.colors.gray[1]};
   outline: none;
 
-  &.win95-activeClick--src.win95-activeClick--target {
+  .isLeftClicking &:active:hover {
     padding: 3px 1px 1px 3px;
     box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[3]},
       inset 1px 1px 0 ${props => props.theme.colors.gray[0]},
@@ -102,15 +101,15 @@ const MenuBar = styled.div`
 const MenuBarItem = styled.button.attrs({
   type: "button"
 })`
-  margin: 0;
-  padding: 6px;
+  margin: 1px 0;
+  padding: 4px 6px;
   color: ${props => props.theme.colors.gray[0]};
   background: ${props => props.theme.colors.gray[2]};
   border: 0;
   font-family: ${props => props.theme.fontFamilies.default};
   outline: none;
 
-  :hover:not(:disabled) {
+  ${MenuBar}:focus-within &:hover:not(:disabled) {
     color: ${props => props.theme.colors.gray[3]};
     background: ${props => props.theme.colors.navy};
   }

@@ -6,6 +6,7 @@ import SmileyButton from "./SmileyButton"
 import Square from "./Square"
 import SevenSegmentDisplay from "./SevenSegmentDisplay"
 import useMinesweeper from "./useMinesweeper"
+import useActive from "~/lib/useActive"
 
 const Well = styled.div`
   background: ${props => props.theme.colors.gray[2]};
@@ -44,9 +45,13 @@ const Settings = {
 
 const Minesweeper = () => {
   const [settings, setSettings] = useState(Settings.EASY)
-  const {state, handlers, clickTarget} = useMinesweeper(settings)
+  const {state, handlers} = useMinesweeper(settings)
   const {squares, revealed, exploded, won, flags, questions, time} = state
   const flagCount = useMemo(() => flags.filter(_ => _).length, [flags])
+  const gameRef = React.useRef(null)
+  const boardRef = React.useRef(null)
+  const isGameClicked = useActive(gameRef)
+  const isBoardClicked = useActive(boardRef)
 
   return (
     <Window
@@ -56,20 +61,19 @@ const Minesweeper = () => {
       y={200}
       menuItems={["Game", "Help"]}
     >
-      <Well outset depth={3} margin="0 2px 0 0" onMouseDown={handlers.onGameMouseDown}>
+      <Well ref={gameRef} outset depth={3} margin="0 2px 0 0">
         <StatusWell depth={2} margin="6px" padding="4px 7px 4px 5px">
           <SevenSegmentDisplay value={settings.mineCount - flagCount} />
           <SmileyButton
-            onMouseDown={handlers.onSmileyButtonMouseDown}
-            onClick={handlers.onSmileyButtonClick}
-            isClicking={clickTarget}
+            gameRef={gameRef}
             exploded={exploded}
             won={won}
+            onClick={handlers.onSmileyButtonClick}
           />
           <SevenSegmentDisplay value={time} />
         </StatusWell>
         <Well depth={3} margin="6px">
-          <Board width={settings.width} height={settings.height} clickTarget={clickTarget}>
+          <Board ref={boardRef} width={settings.width} height={settings.height}>
             {squares.map((square, i) => (
               <Square
                 key={i}
@@ -79,10 +83,11 @@ const Minesweeper = () => {
                 revealed={revealed[i]}
                 flag={flags[i]}
                 question={questions[i]}
-                isClicking={clickTarget === "Square"}
-                onMouseDown={useCallback(handlers.onSquareMouseDown(i))}
-                onMouseUp={useCallback(handlers.onSquareMouseUp(i))}
-                onContextMenu={useCallback(handlers.onSquareContextMenu(i))}
+                onMouseUp={useCallback(handlers.onSquareMouseUp(i), [i])}
+                onContextMenu={useCallback(handlers.onSquareContextMenu(i), [i])}
+                // onMouseUp={isBoardClicked ? handlers.onSquareMouseUp(i) : undefined}
+                // onContextMenu={handlers.onSquareContextMenu(i)}
+                isBoardClicked={isBoardClicked}
               />
             ))}
           </Board>
@@ -91,5 +96,9 @@ const Minesweeper = () => {
     </Window>
   )
 }
+
+Minesweeper.title = "Minesweeper"
+Minesweeper.iconSmall = require("./images/icon-sm.png")
+Minesweeper.iconLarge = require("./images/icon-lg.png")
 
 export default Minesweeper

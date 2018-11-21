@@ -1,5 +1,7 @@
+import {useRef} from "react"
 import styled from "styled-components"
 import {SmileyHappy, SmileySurprise, SmileyDead, SmileySunglasses} from "./Icons"
+import useActive from "~/lib/useActive"
 
 const Button = styled.button.attrs({
   type: "button"
@@ -14,33 +16,39 @@ const Button = styled.button.attrs({
   background: ${props => props.theme.colors.gray[2]};
   border: 0;
   outline: 0;
-  box-shadow: inset 1px 1px ${props => props.theme.colors.gray[1]},
-    inset -1px -1px ${props => props.theme.colors.gray[0]},
-    inset 2px 2px ${props => props.theme.colors.gray[3]},
-    inset -2px -2px ${props => props.theme.colors.gray[1]},
-    1px 1px ${props => props.theme.colors.gray[1]};
 
-  &.win95-activeClick--src.win95-activeClick--target {
-    transform: translate3d(1px, 1px, 0);
-    box-shadow: inset -1px -1px ${props => props.theme.colors.gray[1]},
-      inset 1px 1px ${props => props.theme.colors.gray[0]},
-      inset -2px -2px ${props => props.theme.colors.gray[3]},
+  box-shadow: inset -1px -1px ${props => props.theme.colors.gray[0]},
+    inset 1px 1px ${props => props.theme.colors.gray[3]},
+    inset -2px -2px ${props => props.theme.colors.gray[1]},
+    1px 1px ${props => props.theme.colors.gray[1]}, -1px -1px ${props => props.theme.colors.gray[1]};
+
+  .isLeftClicking &:active:hover {
+    padding: 1px 0 0 2px;
+    box-shadow: inset 1px 1px ${props => props.theme.colors.gray[0]},
+      inset -1px -1px ${props => props.theme.colors.gray[3]},
       inset 2px 2px ${props => props.theme.colors.gray[1]},
+      1px 1px ${props => props.theme.colors.gray[1]},
       -1px -1px ${props => props.theme.colors.gray[1]};
   }
 `
-const SmileyButton = ({isClicking, exploded, won, children, ...props}) => (
-  <Button {...props}>
-    {exploded ? (
-      <SmileyDead />
-    ) : won ? (
-      <SmileySunglasses />
-    ) : isClicking ? (
-      <SmileySurprise />
-    ) : (
-      <SmileyHappy />
-    )}
-  </Button>
-)
+const SmileyButton = ({gameRef, exploded, won, children, ...props}) => {
+  const ref = useRef()
+  const isClickingButton = useActive(ref)
+  const isClickingGame = useActive(gameRef)
+
+  return (
+    <Button ref={ref} {...props}>
+      {exploded ? (
+        <SmileyDead />
+      ) : won ? (
+        <SmileySunglasses />
+      ) : isClickingGame && !isClickingButton ? (
+        <SmileySurprise />
+      ) : (
+        <SmileyHappy />
+      )}
+    </Button>
+  )
+}
 
 export default SmileyButton
