@@ -60,6 +60,7 @@ const DesktopIcon = ({application}) => {
   return (
     <StyledDesktopIcon
       tabIndex="0"
+      onTouchEnd={() => createTask({application, isActive: true})}
       onDoubleClick={() => createTask({application, isActive: true})}
       onFocus={() => setIsSelected(true)}
       onBlur={() => setIsSelected(false)}
