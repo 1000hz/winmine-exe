@@ -26,15 +26,14 @@ const TaskManager = ({children}) => {
       application,
       windowRef,
       taskbarRef,
-      isActive,
-      close: () => endTask(taskId)
+      isActive
     }
 
     setTasks(tasks => ({...tasks, [taskId]: task}))
     return taskId
   }
 
-  async function endTask(taskId, {force}) {
+  async function endTask(taskId, {force} = {}) {
     const nextTasks = {...tasks}
     const task = tasks[taskId]
 
@@ -42,7 +41,7 @@ const TaskManager = ({children}) => {
       await task.taskWillEnd()
     }
 
-    delete tasks[taskId]
+    delete nextTasks[taskId]
     setTasks(nextTasks)
   }
 

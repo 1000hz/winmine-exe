@@ -1,5 +1,7 @@
 import {useRef, useEffect} from "react"
 import styled from "styled-components"
+import useApplicationContext from "~/lib/useApplicationContext"
+import useTaskManager from "~/lib/useTaskManager"
 
 export const WindowFrame = styled.div`
   position: absolute;
@@ -88,11 +90,24 @@ const TitleBar = ({active, icon, title, buttons}) => (
   </StyledTitleBar>
 )
 
+const AppMaximizeButton = () => {
+  const app = useApplicationContext()
+  if (app.maximize === null) return null
+  return <MaximizeButton disabled={app.maximize === false} onClick={() => {}} />
+}
+
+const AppCloseButton = () => {
+  const app = useApplicationContext()
+  const {endTask} = useTaskManager()
+  if (app.close === null) return null
+  return <CloseButton disabled={app.close === false} onClick={() => endTask(app.id)} />
+}
+
 const DEFAULT_TITLEBAR_BUTTONS = (
   <>
     <MinimizeButton />
-    <MaximizeButton />
-    <CloseButton />
+    <AppMaximizeButton />
+    <AppCloseButton />
   </>
 )
 
@@ -131,11 +146,11 @@ const Window = ({
   task,
   children
 }) => {
-  const ref = useRef()
-  useEffect(() => ref.current.focus(), [])
+  const app = useApplicationContext()
+  useEffect(() => app.windowRef.current.focus(), [])
 
   return (
-    <WindowFrame ref={ref} x={x} y={y} tabIndex="0">
+    <WindowFrame ref={app.windowRef} x={app.x} y={app.y} tabIndex="0">
       <TitleBar active={true} title={title} buttons={titlebarButtons} icon={icon} />
       {menuItems ? (
         <MenuBar>

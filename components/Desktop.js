@@ -2,7 +2,7 @@ import React, {useCallback} from "react"
 import styled from "styled-components"
 import DesktopIcon from "~/components/_ui/DesktopIcon"
 import Taskbar from "~/components/_ui/Taskbar/Taskbar"
-import Minesweeper from "~/components/Minesweeper/Minesweeper"
+import Minesweeper from "~/components/Minesweeper"
 import useEventListener from "~/lib/useEventListener"
 import useTimeout from "~/lib/useTimeout"
 import {useTaskManager} from "~/lib/useTaskManager"
@@ -22,7 +22,7 @@ const Desktop = ({children}) => {
 
   return (
     <>
-      {Object.values(tasks).map(task => <task.application key={task.id} task={task} />)}
+      {Object.values(tasks).map(task => <task.application.AppComponent key={task.id} {...task} />)}
       <StyledDesktop>
         {appShortcuts.map((app, id) => <DesktopIcon key={id} application={app} />)}
       </StyledDesktop>
