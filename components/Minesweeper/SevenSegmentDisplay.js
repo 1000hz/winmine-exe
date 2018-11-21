@@ -51,7 +51,7 @@ function segmentPixels({index, height, width, active, theme}) {
   const shouldDisplayPixel = (x, y) => {
     const isShortenedPortionOfMiddleSegment =
       index === 6 && y < Math.trunc(height / 2) && (x <= 1 || x >= width - 2)
-    const isDitheredAway = (x * x + (index != 0 && index != 3)) % 2 == 0
+    const isDitheredAway = (x * x + (index != 0 && index != 3)) % 2 === 0
 
     return !isShortenedPortionOfMiddleSegment && (active || !isDitheredAway)
   }

@@ -54,7 +54,7 @@ const TitleBarButton = styled.button`
   box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[0]},
     inset 1px 1px 0 ${props => props.theme.colors.gray[3]},
     inset -2px -2px 0 ${props => props.theme.colors.gray[1]};
-  outline: none;
+  outline: 0;
 
   .isLeftClicking &:active:hover {
     padding: 3px 1px 1px 3px;
@@ -124,7 +124,7 @@ const MenuBarItem = styled.button.attrs({
   background: ${props => props.theme.colors.gray[2]};
   border: 0;
   font-family: ${props => props.theme.fontFamilies.default};
-  outline: none;
+  outline: 0;
 
   ${MenuBar}:focus-within &:hover:not(:disabled) {
     color: ${props => props.theme.colors.gray[3]};

@@ -18,7 +18,7 @@ const Button = styled.button.attrs({
   box-shadow: inset -1px -1px ${props => props.theme.colors.gray[0]},
     inset 1px 1px ${props => props.theme.colors.gray[3]},
     inset -2px -2px ${props => props.theme.colors.gray[1]};
-  outline: none;
+  outline: 0;
 
   & + & {
     margin-left: 0;

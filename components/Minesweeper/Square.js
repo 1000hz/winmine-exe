@@ -37,7 +37,7 @@ const StyledSquare = styled.button.attrs({
   text-align: center;
   font-size: 12px;
   font-weight: bold;
-  outline: none;
+  outline: 0;
   user-select: none;
 
   .isLeftClicking ${Board}:active &:hover {

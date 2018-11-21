@@ -22,7 +22,7 @@ const StyledTask = styled(TaskbarButton)`
   border: 0;
   box-shadow: ${props =>
     props.isActive ? taskActiveBoxShadow(props.theme) : taskBoxShadow(props.theme)};
-  outline: none;
+  outline: 0;
 
   active:hover {
     box-shadow: inset -1px -1px ${props => props.theme.colors.gray[3]},

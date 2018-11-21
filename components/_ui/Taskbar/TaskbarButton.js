@@ -23,7 +23,7 @@ const TaskbarButton = styled.button.attrs({
   background: ${props => props.theme.colors.gray[2]};
   border: 0;
   box-shadow: ${props => taskBoxShadow(props.theme)};
-  outline: none;
+  outline: 0;
 
   .isLeftClicking &:active:hover {
     box-shadow: inset -1px -1px ${props => props.theme.colors.gray[3]},
