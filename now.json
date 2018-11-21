@@ -1,5 +1,6 @@
 {
   "version": 2,
   "name": "winmine-exe",
+  "alias": "winmine-exe",
   "builds": [{"src": "package.json", "use": "@now/static-build"}]
 }
