@@ -46,7 +46,6 @@ const Label = styled(Text)`
     bottom: 0;
     left: 0;
     border: 1px dotted ${props => props.theme.colors.gray[3]};
-    mix-blend-mode: exclusion;
   }
 
   :focus :after {
