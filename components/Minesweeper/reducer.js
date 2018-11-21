@@ -68,6 +68,7 @@ export const reducer = handleActions({
     }
   },
   UPDATE_TIME: (state, action) => {
+    if (!state.started || state.won || state.exploded) return state
     return {
       ...state,
       time: Math.min(state.time + 1, 999)
@@ -131,6 +132,7 @@ function revealSquare(state, id) {
 
 function explodeAndRevealMines(state, id) {
   const revealed = [...state.revealed]
+  state.squares.filter(square => square.mine).forEach(mine => (revealed[mine.id] = true))
   return {
     ...state,
     revealed,

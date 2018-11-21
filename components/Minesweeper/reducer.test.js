@@ -62,6 +62,14 @@ describe("REVEAL_SQUARE", () => {
     expect(nextState.exploded).toBe(0)
   })
 
+  test("revealing a mine reveals all other mines", () => {
+    const state = generateBoardState(5, 5, [0, 15, 20])
+    let nextState = reducer(state, action(1))
+    nextState = reducer(nextState, action(0))
+    console.log(nextState.revealed)
+    expect([0, 15, 20].every(id => nextState.revealed[id])).toBeTruthy()
+  })
+
   test("revealing a square with no surrounding mines reveals all extended neighboring safe squares", () => {
     const state = generateBoardState(5, 5, [5, 6, 7, 8, 9])
     const nextState = reducer(state, action(15))
@@ -159,12 +167,21 @@ describe("TOGGLE_FLAG", () => {
 
 describe("UPDATE_TIME", () => {
   test("increments time by one", () => {
-    const state = reducer({time: 500}, {type: "UPDATE_TIME"})
+    const state = reducer({time: 500, started: true}, {type: "UPDATE_TIME"})
     expect(state.time).toBe(501)
   })
 
   test("time maxes out at 999", () => {
-    const state = reducer({time: 999}, {type: "UPDATE_TIME"})
+    const state = reducer({time: 999, started: true}, {type: "UPDATE_TIME"})
     expect(state.time).toBe(999)
+  })
+
+  test("updating time before a game has started or ended is a no-op", () => {
+    let state = reducer({time: 500, started: false}, {type: "UPDATE_TIME"})
+    expect(state.time).toBe(500)
+    state = reducer({time: 500, won: true}, {type: "UPDATE_TIME"})
+    expect(state.time).toBe(500)
+    state = reducer({time: 500, exploded: 5}, {type: "UPDATE_TIME"})
+    expect(state.time).toBe(500)
   })
 })
