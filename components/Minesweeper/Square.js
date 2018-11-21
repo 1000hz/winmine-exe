@@ -64,7 +64,7 @@ const Square = React.memo(
         <Flag />
       ) : revealed && square.mine && !flag ? (
         <Mine />
-      ) : revealed ? (
+      ) : revealed && square.surroundingMines ? (
         <MineCount value={square.surroundingMines} />
       ) : question ? (
         <Question />
