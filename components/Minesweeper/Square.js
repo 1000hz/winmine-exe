@@ -1,7 +1,7 @@
 import React from "react"
 import styled, {css} from "styled-components"
+import Board, {squareSize} from "./Board"
 import {MineCount, Mine, Flag, Question, X} from "./Icons"
-export const squareSize = 16
 
 export const borderStyles = {
   initial: css`
@@ -40,8 +40,8 @@ const StyledSquare = styled.button.attrs({
   outline: none;
   user-select: none;
 
-  :hover {
-    ${props => (props.isClicking ? borderStyles.revealed : "")};
+  ${Board}:active &:hover {
+    ${({flag}) => (flag ? "" : borderStyles.revealed)};
   }
 `
 
@@ -49,7 +49,6 @@ const Square = ({
   onMouseDown,
   onMouseUp,
   onContextMenu,
-  isClicking,
   square,
   flag,
   question,
@@ -65,7 +64,6 @@ const Square = ({
       revealed={revealed}
       exploded={exploded}
       disabled={disabled}
-      isClicking={isClicking && !flag}
     >
       {revealed ? (
         square.mine ? (
