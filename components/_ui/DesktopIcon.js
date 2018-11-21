@@ -23,8 +23,9 @@ const Icon = styled.div`
     display: block;
     width: 32px;
     height: 32px;
-    ${props => (props.isSelected ? ditherBackground(props.theme.colors.navy, "#000") : undefined)};
-    mix-blend-mode: lighten;
+    mask-image: ${props => `url(${props.src})`};
+    mask-size: 32px 32px;
+    ${props => ditherBackground(props.theme.colors.navy)};
   }
 `
 
