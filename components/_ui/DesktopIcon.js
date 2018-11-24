@@ -45,7 +45,7 @@ const Label = styled(Text)`
     right: 0;
     bottom: 0;
     left: 0;
-    border: 1px dotted ${props => props.theme.colors.gray[3]};
+    border: 1px dotted ${props => props.theme.colors.yellow};
   }
 
   :focus :after {
