@@ -63,6 +63,7 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  pointer-events: none;
 `
 
 const TitleBarButton = styled.button`
