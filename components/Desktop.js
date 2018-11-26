@@ -4,7 +4,6 @@ import DesktopIcon from "~/components/_ui/DesktopIcon"
 import Taskbar from "~/components/_ui/Taskbar/Taskbar"
 import Minesweeper from "~/components/Minesweeper"
 import useEventListener from "~/lib/useEventListener"
-import useTimeout from "~/lib/useTimeout"
 import {useTaskManager} from "~/lib/useTaskManager"
 
 const StyledDesktop = styled.div`

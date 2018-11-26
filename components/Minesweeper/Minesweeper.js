@@ -1,6 +1,6 @@
 import {useState, useMemo, useCallback} from "react"
 import styled from "styled-components"
-import Window from "~/components/_ui/Window"
+import Window from "~/components/_ui/Window/Window"
 import Board from "./Board"
 import SmileyButton from "./SmileyButton"
 import Square from "./Square"
