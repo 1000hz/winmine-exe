@@ -50,7 +50,6 @@ const Minesweeper = () => {
   const flagCount = useMemo(() => flags.filter(_ => _).length, [flags])
   const gameRef = React.useRef(null)
   const boardRef = React.useRef(null)
-  const isGameClicked = useActive(gameRef)
   const isBoardClicked = useActive(boardRef)
 
   return (
