@@ -8,11 +8,10 @@ export const WindowFrame = styled.div`
   transform: translate3d(${props => props.x}px, ${props => props.y}px, 0);
   padding: 2px;
   background: ${props => props.theme.colors.gray[2]};
-  border: 1px solid ${props => props.theme.colors.gray[2]};
-  border-right-color: ${props => props.theme.colors.gray[0]};
-  border-bottom-color: ${props => props.theme.colors.gray[0]};
-  box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[1]},
-    inset 1px 1px 0 ${props => props.theme.colors.gray[3]};
+  box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[0]},
+    inset 1px 1px 0 ${props => props.theme.colors.gray[2]},
+    inset -2px -2px 0 ${props => props.theme.colors.gray[1]},
+    inset 2px 2px 0 ${props => props.theme.colors.gray[3]};
   outline: 0;
 `
 
