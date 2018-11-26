@@ -1,18 +1,44 @@
-import {useRef, useEffect} from "react"
+import React, {useState, useRef, useEffect} from "react"
 import styled from "styled-components"
 import useApplicationContext from "~/lib/useApplicationContext"
 import useTaskManager from "~/lib/useTaskManager"
+import useDraggable from "~/lib/useDraggable"
+import useBoundingRect from "~/lib/useBoundingRect"
 
-export const WindowFrame = styled.div`
+export const WindowFrame = styled.div.attrs(({x, y}) => ({
+  style: {
+    transform: `translate3d(${x}px, ${y}px, 0)`
+  }
+}))`
   position: absolute;
-  transform: translate3d(${props => props.x}px, ${props => props.y}px, 0);
-  padding: 2px;
+  padding: ${props => (props.resizable ? 4 : 3)}px;
   background: ${props => props.theme.colors.gray[2]};
   box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[0]},
     inset 1px 1px 0 ${props => props.theme.colors.gray[2]},
     inset -2px -2px 0 ${props => props.theme.colors.gray[1]},
     inset 2px 2px 0 ${props => props.theme.colors.gray[3]};
   outline: 0;
+`
+
+const WindowDragOutline = styled.div.attrs(({delta, bounds}) => ({
+  style: {
+    transform: `translate3d(${bounds.x + delta.x}px, ${bounds.y + delta.y}px, 0)`,
+    width: bounds.width,
+    height: bounds.height
+  }
+}))`
+  content: ${props => (props.isDragging ? "" : undefined)};
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 4px dotted #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAKklEQVQ4je3OsQ0AAAiEQHT/nXEHtfyKiuRKFShg1b7MgH2ZI4gggkfBALLHgx1l0HN4AAAAAElFTkSuQmCC")
+    repeat;
+  border-image-slice: ${props => (props.resizableWindow ? 4 : 1)};
+  border-image-width: ${props => (props.resizableWindow ? 4 : 1)}px;
+  image-rendering: pixelated;
 `
 
 const StyledTitleBar = styled.div`
@@ -81,13 +107,13 @@ const CloseButton = styled(TitleBarButton)`
   margin-left: 2px;
 `
 
-const TitleBar = ({active, icon, title, buttons}) => (
-  <StyledTitleBar active={active}>
+const TitleBar = React.forwardRef(({active, icon, title, buttons}, ref) => (
+  <StyledTitleBar ref={ref} active={active}>
     <Icon src={icon} />
     <Title>{title}</Title>
     <div>{buttons}</div>
   </StyledTitleBar>
-)
+))
 
 const AppMaximizeButton = () => {
   const app = useApplicationContext()
@@ -142,24 +168,50 @@ const Window = ({
   title,
   titlebarButtons = DEFAULT_TITLEBAR_BUTTONS,
   menuItems,
+  resizable,
   task,
   children
 }) => {
   const app = useApplicationContext()
   useEffect(() => app.windowRef.current.focus(), [])
+  const titleBarRef = useRef()
+  const [position, setPosition] = useState({x: app.x, y: app.y})
+  const {isDragging, delta} = useDraggable(titleBarRef, {
+    onDragEnd({delta}) {
+      setPosition(position => ({x: position.x + delta.x, y: position.y + delta.y}))
+    }
+  })
+  const bounds = useBoundingRect(app.windowRef)
 
   return (
-    <WindowFrame ref={app.windowRef} x={app.x} y={app.y} tabIndex="0">
-      <TitleBar active={true} title={title} buttons={titlebarButtons} icon={icon} />
-      {menuItems ? (
-        <MenuBar>
-          {menuItems.map((menuItem, i) => <MenuBarItem key={i}>{menuItem}</MenuBarItem>)}
-        </MenuBar>
-      ) : (
-        undefined
+    <>
+      <WindowFrame
+        ref={app.windowRef}
+        x={position.x}
+        y={position.y}
+        resizable={resizable}
+        tabIndex="0"
+      >
+        <TitleBar
+          ref={titleBarRef}
+          active={true}
+          title={title}
+          buttons={titlebarButtons}
+          icon={icon}
+        />
+        {menuItems ? (
+          <MenuBar>
+            {menuItems.map((menuItem, i) => <MenuBarItem key={i}>{menuItem}</MenuBarItem>)}
+          </MenuBar>
+        ) : (
+          undefined
+        )}
+        {children}
+      </WindowFrame>
+      {isDragging && (
+        <WindowDragOutline resizableWindow={resizable} bounds={bounds} delta={delta} />
       )}
-      {children}
-    </WindowFrame>
+    </>
   )
 }
 
