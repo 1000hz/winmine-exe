@@ -1,11 +1,7 @@
 import React, {useState, useLayoutEffect} from "react"
+import id from "~/lib/id"
 
 export const TaskManagerContext = React.createContext({})
-
-const id = () =>
-  Math.random()
-    .toString(0x10)
-    .slice(2, 10)
 
 function useApplicationLoading() {
   const [isLoadingApplication, setIsLoadingApplication] = useState(false)
