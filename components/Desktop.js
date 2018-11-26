@@ -22,9 +22,11 @@ const Desktop = ({children}) => {
 
   return (
     <>
-      {Object.values(tasks).map(task => <task.application.AppComponent key={task.id} {...task} />)}
       <StyledDesktop>
         {appShortcuts.map((app, id) => <DesktopIcon key={id} application={app} />)}
+        {Object.values(tasks).map(task => (
+          <task.application.AppComponent key={task.id} {...task} />
+        ))}
       </StyledDesktop>
       <Taskbar tasks={tasks} />
     </>
