@@ -6,6 +6,7 @@ import TaskManager from "~/components/TaskManager"
 import useMouseButtonIdentifier from "~/lib/useMouseButtonIdentifier"
 
 const Windows95 = styled.div`
+  position: fixed;
   height: 100vh;
   width: 100vw;
   background: ${win95Theme.colors.teal};
