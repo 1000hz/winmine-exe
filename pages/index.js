@@ -1,3 +1,4 @@
+import {useEffect} from "react"
 import styled, {ThemeProvider, keyframes} from "styled-components"
 import win95Theme from "~/lib/win95Theme"
 import cursorLoadAnimation from "~/lib/cursorLoadAnimation"
@@ -25,7 +26,6 @@ const Windows95 = styled.div`
   }
 
   img {
-    pointer-events: none;
     image-rendering: pixelated;
   }
 
@@ -34,8 +34,18 @@ const Windows95 = styled.div`
   }
 `
 
+function usePreventImageDragGhost() {
+  useEffect(() => {
+    const mousedown = e => e.target instanceof Image && e.preventDefault()
+    document.addEventListener("mousedown", mousedown)
+    return () => document.removeEventListener("mousedown", mousedown)
+  }, [])
+}
+
 const Index = () => {
   useMouseButtonIdentifier()
+  usePreventImageDragGhost()
+
   return (
     <Windows95>
       <ThemeProvider theme={win95Theme}>
