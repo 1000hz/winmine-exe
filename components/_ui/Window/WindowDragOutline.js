@@ -13,7 +13,6 @@ const WindowDragOutline = styled.div.attrs(({delta, bounds}) => ({
   left: 0;
   border: 4px dotted #fff;
   mix-blend-mode: difference;
-  pointer-events: none;
   border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAKklEQVQ4je3OsQ0AAAiEQHT/nXEHtfyKiuRKFShg1b7MgH2ZI4gggkfBALLHgx1l0HN4AAAAAElFTkSuQmCC")
     repeat;
   border-image-slice: ${props => (props.resizableWindow ? 4 : 1)};

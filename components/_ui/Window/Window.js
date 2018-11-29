@@ -3,6 +3,7 @@ import WindowFrame from "./WindowFrame"
 import WindowDragOutline from "./WindowDragOutline"
 import TitleBar, {DEFAULT_TITLEBAR_BUTTONS} from "./TitleBar"
 import {MenuBar, MenuBarItem} from "./MenuBar"
+import Portal from "~/lib/Portal"
 import useApplicationContext from "~/lib/useApplicationContext"
 import useDraggable from "~/lib/useDraggable"
 import useBoundingRect from "~/lib/useBoundingRect"
@@ -55,7 +56,9 @@ const Window = ({
         {children}
       </WindowFrame>
       {isDragging && (
-        <WindowDragOutline resizableWindow={resizable} bounds={bounds} delta={delta} />
+        <Portal parent={app.windowRef.current.parentElement}>
+          <WindowDragOutline resizableWindow={resizable} bounds={bounds} delta={delta} />
+        </Portal>
       )}
     </>
   )
