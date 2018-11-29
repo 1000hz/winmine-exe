@@ -3,6 +3,7 @@ import styled from "styled-components"
 import DesktopIcon from "~/components/_ui/DesktopIcon"
 import Taskbar from "~/components/_ui/Taskbar/Taskbar"
 import Minesweeper from "~/components/Minesweeper"
+import About from "~/components/About"
 import useEventListener from "~/lib/useEventListener"
 import {useTaskManager} from "~/lib/useTaskManager"
 
@@ -13,7 +14,7 @@ const StyledDesktop = styled.div`
   padding: 2px 4px;
 `
 
-const appShortcuts = [Minesweeper]
+const appShortcuts = [Minesweeper, About]
 
 const Desktop = ({children}) => {
   const {tasks, createTask} = useTaskManager()
