@@ -77,6 +77,7 @@ const Square = React.memo(
         onMouseUp={isBoardClicked ? onMouseUp : undefined}
         onContextMenu={onContextMenu}
         revealed={(revealed && !flag) || (disabled && flag && !square.mine)}
+        flag={flag}
         exploded={exploded}
         disabled={disabled}
       >
