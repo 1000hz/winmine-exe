@@ -8,6 +8,7 @@ const Icon = styled.img`
 const Smiley = styled.img`
   width: 17px;
   height: 17px;
+  pointer-events: none;
 `
 
 export const MineCount = styled(Icon).attrs(props => ({
