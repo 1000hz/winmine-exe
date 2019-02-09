@@ -84,8 +84,6 @@ const Minesweeper = () => {
                 question={questions[i]}
                 onMouseUp={useCallback(handlers.onSquareMouseUp(i), [i])}
                 onContextMenu={useCallback(handlers.onSquareContextMenu(i), [i])}
-                // onMouseUp={isBoardClicked ? handlers.onSquareMouseUp(i) : undefined}
-                // onContextMenu={handlers.onSquareContextMenu(i)}
                 isBoardClicked={isBoardClicked}
               />
             ))}
