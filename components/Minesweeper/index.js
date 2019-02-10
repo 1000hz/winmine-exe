@@ -6,5 +6,5 @@ export default createApplication(Minesweeper, {
   iconSmall: require("./images/icon-sm.png"),
   iconLarge: require("./images/icon-lg.png"),
   singleton: true,
-  maximize: false
+  canMaximize: false
 })

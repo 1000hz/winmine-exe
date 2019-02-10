@@ -71,23 +71,23 @@ const CloseButton = styled(TitleBarButton)`
 
 const AppMinimizeButton = () => {
   const app = useApplicationContext()
-  if (app.minimize === null) return null
+  if (app.canMinimize === null) return null
   const {taskbarRef} = app
 
-  return <MinimizeButton disabled={app.minimize === false} onClick={() => {}} />
+  return <MinimizeButton disabled={app.canMinimize === false} onClick={() => {}} />
 }
 
 const AppMaximizeButton = () => {
   const app = useApplicationContext()
-  if (app.maximize === null) return null
-  return <MaximizeButton disabled={app.maximize === false} onClick={() => {}} />
+  if (app.canMaximize === null) return null
+  return <MaximizeButton disabled={app.canMaximize === false} onClick={() => {}} />
 }
 
 const AppCloseButton = () => {
   const app = useApplicationContext()
   const {endTask} = useTaskManager()
-  if (app.close === null) return null
-  return <CloseButton disabled={app.close === false} onClick={() => endTask(app.id)} />
+  if (app.canClose === null) return null
+  return <CloseButton disabled={app.canClose === false} onClick={() => endTask(app.id)} />
 }
 
 export const DEFAULT_TITLEBAR_BUTTONS = (
