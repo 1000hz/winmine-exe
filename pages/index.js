@@ -5,6 +5,7 @@ import cursorLoadAnimation from "~/lib/cursorLoadAnimation"
 import Desktop from "~/components/Desktop"
 import TaskManager from "~/components/TaskManager"
 import useMouseButtonIdentifier from "~/lib/useMouseButtonIdentifier"
+import usePreventImageDragGhost from "~/lib/usePreventImageDragGhost"
 
 const Windows95 = styled.div`
   position: fixed;
@@ -33,14 +34,6 @@ const Windows95 = styled.div`
     animation: ${cursorLoadAnimation} 2s;
   }
 `
-
-function usePreventImageDragGhost() {
-  useEffect(() => {
-    const mousedown = e => e.target instanceof Image && e.preventDefault()
-    document.addEventListener("mousedown", mousedown)
-    return () => document.removeEventListener("mousedown", mousedown)
-  }, [])
-}
 
 const Index = () => {
   useMouseButtonIdentifier()
