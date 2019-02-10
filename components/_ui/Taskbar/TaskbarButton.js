@@ -8,6 +8,11 @@ export const taskActiveBoxShadow = theme =>
   `inset -1px -1px ${theme.colors.gray[3]}, inset 1px 1px ${theme.colors.gray[0]},
    inset -2px -2px ${theme.colors.gray[2]}, inset 2px 2px ${theme.colors.gray[1]},
    inset 0 3px ${theme.colors.gray[3]};`
+export const taskClickedBoxShadow = theme =>
+  `inset -1px -1px ${theme.colors.gray[3]},
+   inset 1px 1px ${theme.colors.gray[0]},
+   inset -2px -2px ${theme.colors.gray[2]},
+   inset 2px 2px ${theme.colors.gray[1]};`
 
 const TaskbarButton = styled.button.attrs({
   type: "button"
@@ -24,13 +29,6 @@ const TaskbarButton = styled.button.attrs({
   border: 0;
   box-shadow: ${props => taskBoxShadow(props.theme)};
   outline: 0;
-
-  .isLeftClicking &:active:hover {
-    box-shadow: inset -1px -1px ${props => props.theme.colors.gray[3]},
-      inset 1px 1px ${props => props.theme.colors.gray[0]},
-      inset -2px -2px ${props => props.theme.colors.gray[2]},
-      inset 2px 2px ${props => props.theme.colors.gray[1]};
-  }
 `
 
 export default TaskbarButton

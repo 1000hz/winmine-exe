@@ -11,6 +11,11 @@ const StyledStartButton = styled(TaskbarButton)`
   margin: 2px;
   padding: 0 4px;
 
+  .isLeftClicking &:active {
+    box-shadow: ${props => taskActiveBoxShadow(props.theme)};
+    padding: 1px 3px 0 5px;
+  }
+
   :focus:after {
     content: "";
     display: block;
@@ -20,11 +25,6 @@ const StyledStartButton = styled(TaskbarButton)`
     bottom: 3px;
     left: 3px;
     border: 1px dotted ${props => props.theme.colors.gray[0]};
-  }
-
-  &&:active {
-    box-shadow: ${props => taskActiveBoxShadow(props.theme)};
-    padding: 1px 3px 0 5px;
   }
 `
 
