@@ -3,10 +3,13 @@ import useInterval from "~/lib/useInterval"
 import {reducer, defaultState} from "./reducer"
 
 const useMinesweeper = settings => {
-  const [state, dispatch] = useReducer(reducer, defaultState, {
-    type: "NEW_GAME",
-    payload: {settings}
-  })
+  const init = defaultState =>
+    reducer(defaultState, {
+      type: "NEW_GAME",
+      payload: {settings}
+    })
+
+  const [state, dispatch] = useReducer(reducer, defaultState, init)
 
   useInterval(() => dispatch({type: "UPDATE_TIME"}), 1000, [])
 
