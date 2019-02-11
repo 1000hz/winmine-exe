@@ -19,6 +19,7 @@ const Clock = () => {
 
 const StyledSystemTray = styled.div`
   display: flex;
+  flex: none;
   align-items: center;
   margin: 2px;
   margin-left: auto;
