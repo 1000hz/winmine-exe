@@ -3,6 +3,7 @@ import styled from "styled-components"
 const Icon = styled.img`
   height: 12px;
   width: 12px;
+  pointer-events: none;
 `
 
 const Smiley = styled.img`
