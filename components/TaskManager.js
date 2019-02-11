@@ -20,13 +20,15 @@ function useApplicationLoading() {
 
 const TaskManager = ({children}) => {
   const [tasks, setTasks] = useState({})
+  const [activeTask, setActiveTask] = useState(null)
   const isLoading = useApplicationLoading()
 
-  function createTask({application, isActive}) {
+  function createTask({application, ...runtimeProps}) {
     if (application.singleton) {
       const running = Object.values(tasks).find(task => task.application === application)
       if (running) {
-        return running.taskId
+        setActiveTask(running.id)
+        return running.id
       }
     }
 
@@ -37,14 +39,15 @@ const TaskManager = ({children}) => {
     const windowRef = React.createRef()
     const taskbarRef = React.createRef()
     const task = {
+      ...runtimeProps,
       id: taskId,
       application,
       windowRef,
-      taskbarRef,
-      isActive
+      taskbarRef
     }
 
     setTasks(tasks => ({...tasks, [taskId]: task}))
+    setActiveTask(taskId)
     return taskId
   }
 
@@ -60,8 +63,18 @@ const TaskManager = ({children}) => {
     setTasks(nextTasks)
   }
 
+  function setTaskActiveStatus(taskId, isActive) {
+    if (isActive && taskId !== activeTask) {
+      setActiveTask(taskId)
+    } else if (!isActive && taskId === activeTask) {
+      setActiveTask(null)
+    }
+  }
+
   return (
-    <TaskManagerContext.Provider value={{tasks, createTask, endTask}}>
+    <TaskManagerContext.Provider
+      value={{tasks, createTask, endTask, activeTask, setTaskActiveStatus}}
+    >
       {children}
     </TaskManagerContext.Provider>
   )
