@@ -1,7 +1,8 @@
-import React, {useState, useEffect, useRef} from "react"
+import React, {useRef} from "react"
 import styled from "styled-components"
 import Window from "~/components/_ui/Window/Window"
 import Text, {TitleText} from "~/components/_ui/Text"
+import useHover from "~/lib/useHover"
 
 const CINA = require("./images/cina.png")
 const CINA_KID = require("./images/cina-kid.png")
@@ -67,39 +68,6 @@ const SocialLinksContainer = styled.div`
   display: flex;
   justify-content: space-around;
 `
-
-function useHover(ref) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  useEffect(
-    () => {
-      if (ref.current) {
-        const hoverIn = e => {
-          e.stopImmediatePropagation()
-          setIsHovered(true)
-        }
-        const hoverOut = e => {
-          e.stopImmediatePropagation()
-          setIsHovered(false)
-        }
-
-        ref.current.addEventListener("touchstart", hoverIn, {passive: true})
-        ref.current.addEventListener("touchend", hoverOut, {passive: true})
-        ref.current.addEventListener("mouseover", hoverIn)
-        ref.current.addEventListener("mouseout", hoverOut)
-        return () => {
-          ref.current.removeEventListener("touchstart", hoverIn)
-          ref.current.removeEventListener("touchend", hoverOut)
-          ref.current.removeEventListener("mouseover", hoverIn)
-          ref.current.removeEventListener("mouseout", hoverOut)
-        }
-      }
-    },
-    [ref.current]
-  )
-
-  return isHovered
-}
 
 const About = () => {
   const hoverRef = useRef()
