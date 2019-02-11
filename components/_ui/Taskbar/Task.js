@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import styled from "styled-components"
 import TaskbarButton, {
   taskBoxShadow,
@@ -8,6 +8,8 @@ import TaskbarButton, {
 import TaskbarIcon from "./TaskbarIcon"
 import Text from "~/components/_ui/Text"
 import ditherBackground from "~/lib/ditherBackground"
+import useEventListener from "~/lib/useEventListener"
+import useTaskManager from "~/lib/useTaskManager"
 
 const StyledTask = styled(TaskbarButton)`
   position: relative;
@@ -34,10 +36,22 @@ const StyledTask = styled(TaskbarButton)`
   }
 `
 
-const Task = React.forwardRef(({id, title, icon, isActive}, ref) => (
-  <StyledTask ref={ref} isActive={isActive}>
-    {icon ? <TaskbarIcon src={icon} /> : ""} <Text bold={isActive}>{title}</Text>
-  </StyledTask>
-))
+const Task = React.forwardRef(({id, title, icon}, ref) => {
+  const {activeTask, setTaskActiveStatus} = useTaskManager()
+  const [isBeingClickedWhileActive, setIsBeingClickedWhileActive] = useState(false)
+  const isCurrentlyActive = activeTask === id || isBeingClickedWhileActive
+
+  useEventListener(ref, "click", () => setTaskActiveStatus(id, true))
+  useEventListener(ref, "mousedown", () => {
+    if (activeTask === id) setIsBeingClickedWhileActive(true)
+    document.addEventListener("mouseup", () => setIsBeingClickedWhileActive(false), {once: true})
+  })
+
+  return (
+    <StyledTask ref={ref} isActive={isCurrentlyActive}>
+      {icon ? <TaskbarIcon src={icon} /> : ""} <Text bold={isCurrentlyActive}>{title}</Text>
+    </StyledTask>
+  )
+})
 
 export default Task

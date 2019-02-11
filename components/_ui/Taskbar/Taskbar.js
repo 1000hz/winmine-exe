@@ -19,23 +19,23 @@ const StyledTaskbar = styled.div`
   color: ${props => props.theme.colors.gray[0]};
 `
 
-const Taskbar = ({tasks}) => {
-  return (
-    <StyledTaskbar>
-      <StartButton />
-      {Object.values(tasks).map(task => (
+const Taskbar = ({tasks, activeTask}) => (
+  <StyledTaskbar>
+    <StartButton />
+    {Object.values(tasks)
+      .filter(task => task.application.canMinimize)
+      .map(task => (
         <Task
           key={task.id}
           id={task.id}
           ref={task.taskbarRef}
           title={task.application.title}
           icon={task.application.iconSmall}
-          isActive={task.isActive}
+          isActive={task.id === activeTask}
         />
       ))}
-      <SystemTray />
-    </StyledTaskbar>
-  )
-}
+    <SystemTray />
+  </StyledTaskbar>
+)
 
 export default Taskbar

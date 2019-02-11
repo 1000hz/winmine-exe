@@ -5,7 +5,8 @@ import Taskbar from "~/components/_ui/Taskbar/Taskbar"
 import Minesweeper from "~/components/Minesweeper"
 import About from "~/components/About"
 import useEventListener from "~/lib/useEventListener"
-import {useTaskManager} from "~/lib/useTaskManager"
+import useTaskManager from "~/lib/useTaskManager"
+import useWindowManager from "~/lib/useWindowManager"
 
 const StyledDesktop = styled.div`
   display: grid;
@@ -26,19 +27,19 @@ const icons = (
   </>
 )
 
-const Desktop = ({children}) => {
-  const {tasks, createTask} = useTaskManager()
+const Desktop = () => {
+  const {tasks, activeTask} = useTaskManager()
+  const windows = useWindowManager(tasks, activeTask)
+
   useEventListener(global.document, "contextmenu", e => e.preventDefault())
 
   return (
     <>
       <StyledDesktop>
-        {Object.values(tasks).map(task => (
-          <task.application.AppComponent key={task.id} {...task} />
-        ))}
         {icons}
+        {windows}
       </StyledDesktop>
-      <Taskbar tasks={tasks} />
+      <Taskbar tasks={tasks} activeTask={activeTask} />
     </>
   )
 }

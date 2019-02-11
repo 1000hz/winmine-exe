@@ -4,31 +4,40 @@ import WindowDragOutline from "./WindowDragOutline"
 import TitleBar, {DEFAULT_TITLEBAR_BUTTONS} from "./TitleBar"
 import {MenuBar, MenuBarItem} from "./MenuBar"
 import Portal from "~/lib/Portal"
+import useTaskManager from "~/lib/useTaskManager"
 import useApplicationContext from "~/lib/useApplicationContext"
 import useDraggable from "~/lib/useDraggable"
 import useBoundingRect from "~/lib/useBoundingRect"
+import useEventListener from "~/lib/useEventListener"
+import {useOnMousedownOutside} from "~/lib/useOnClickOutside"
 
 const Window = ({
-  x,
-  y,
   icon,
   title,
   titlebarButtons = DEFAULT_TITLEBAR_BUTTONS,
   menuItems,
   resizable,
-  task,
   children
 }) => {
+  const {activeTask, setTaskActiveStatus} = useTaskManager()
   const app = useApplicationContext()
-  useEffect(() => app.windowRef.current.focus(), [])
+  const bounds = useBoundingRect(app.windowRef)
   const titleBarRef = useRef()
   const [position, setPosition] = useState({x: app.x, y: app.y})
   const {isDragging, delta} = useDraggable(titleBarRef, {
+    onDragStart() {
+      setTaskActiveStatus(app.id, true)
+    },
     onDragEnd({delta}) {
       setPosition(position => ({x: position.x + delta.x, y: position.y + delta.y}))
     }
   })
-  const bounds = useBoundingRect(app.windowRef)
+
+  useEventListener(app.windowRef, "mousedown", () => setTaskActiveStatus(app.id, true))
+  useEventListener(app.windowRef, "touchstart", () => setTaskActiveStatus(app.id, true), {
+    passive: true
+  })
+  useOnMousedownOutside(app.windowRef, () => setTaskActiveStatus(app.id, false))
 
   return (
     <>
@@ -41,7 +50,7 @@ const Window = ({
       >
         <TitleBar
           ref={titleBarRef}
-          active={true}
+          active={app.id === activeTask}
           title={title}
           buttons={titlebarButtons}
           icon={icon}
