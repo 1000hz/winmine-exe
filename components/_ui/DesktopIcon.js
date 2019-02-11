@@ -4,17 +4,19 @@ import Text from "~/components/_ui/Text"
 import ditherBackground from "~/lib/ditherBackground"
 import useTaskManager from "~/lib/useTaskManager"
 
-const StyledDesktopIcon = styled.div`
+const StyledIconWithLabel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   outline: 0;
+  z-index: ${props => (props.isSelected ? 1 : 0)};
 `
 
 const Icon = styled.div`
   display: block;
   width: 32px;
   height: 32px;
+  flex: none;
   background-image: url(${props => props.src});
   background-size: 32px;
 
@@ -37,6 +39,9 @@ const Label = styled(Text)`
   margin: 4px;
   padding: 2px;
   padding-top: 1px;
+  padding-left: 3px;
+  text-align: center;
+  max-width: 75px;
 
   :after {
     ${props => (props.isSelected ? `content: ""` : undefined)};
@@ -47,28 +52,36 @@ const Label = styled(Text)`
     left: 0;
     border: 1px dotted ${props => props.theme.colors.yellow};
   }
-
-  :focus :after {
-    content: "";
-  }
 `
 
-const DesktopIcon = ({application}) => {
-  const {createTask} = useTaskManager()
+export const IconWithLabel = ({icon, title, onOpen}) => {
   const [isSelected, setIsSelected] = useState(false)
 
   return (
-    <StyledDesktopIcon
+    <StyledIconWithLabel
       tabIndex="0"
-      onTouchEnd={() => createTask({application, isActive: true})}
-      onDoubleClick={() => createTask({application, isActive: true})}
       onFocus={() => setIsSelected(true)}
       onBlur={() => setIsSelected(false)}
+      isSelected={isSelected}
+      onDoubleClick={onOpen}
+      onTouchEnd={onOpen}
     >
-      <Icon src={application.iconLarge} isSelected={isSelected} />
-      <Label isSelected={isSelected}>{application.title}</Label>
-    </StyledDesktopIcon>
+      <Icon src={icon} isSelected={isSelected} />
+      <Label isSelected={isSelected}>{title}</Label>
+    </StyledIconWithLabel>
   )
 }
 
-export default DesktopIcon
+export const ApplicationIcon = ({application, runtimeProps}) => {
+  const {createTask} = useTaskManager()
+
+  return (
+    <IconWithLabel
+      icon={application.iconLarge}
+      title={application.title}
+      onOpen={() => createTask({application, ...runtimeProps})}
+    />
+  )
+}
+
+export default ApplicationIcon
