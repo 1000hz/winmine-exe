@@ -9,7 +9,6 @@ const StyledIconWithLabel = styled.div`
   flex-direction: column;
   align-items: center;
   outline: 0;
-  z-index: ${props => (props.isSelected ? 1 : 0)};
 `
 
 const Icon = styled.div`
