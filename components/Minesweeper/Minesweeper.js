@@ -65,7 +65,7 @@ const Minesweeper = () => {
           <SevenSegmentDisplay value={settings.mineCount - flagCount} />
           <SmileyButton
             gameRef={gameRef}
-            exploded={exploded}
+            exploded={exploded != null}
             won={won}
             onClick={handlers.onSmileyButtonClick}
           />
@@ -77,7 +77,7 @@ const Minesweeper = () => {
               <Square
                 key={i}
                 square={square}
-                disabled={exploded || won}
+                disabled={exploded != null || won}
                 exploded={i === exploded}
                 revealed={revealed[i]}
                 flag={flags[i]}

@@ -68,7 +68,7 @@ export const reducer = handleActions({
     }
   },
   UPDATE_TIME: (state, action) => {
-    if (!state.started || state.won || state.exploded) return state
+    if (!state.started || state.won || state.exploded != null) return state
     return {
       ...state,
       time: Math.min(state.time + 1, 999)
