@@ -5,6 +5,7 @@ export const WindowFrame = styled.div.attrs(({x, y}) => ({
     transform: `translate3d(${x}px, ${y}px, 0)`
   }
 }))`
+  visibility: ${props => (props.isMinimized ? "hidden" : "visible")};
   position: absolute;
   padding: ${props => (props.resizable ? 4 : 3)}px;
   background: ${props => props.theme.colors.gray[2]};

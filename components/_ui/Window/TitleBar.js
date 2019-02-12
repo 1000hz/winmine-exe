@@ -69,12 +69,17 @@ const CloseButton = styled(TitleBarButton)`
   margin-left: 2px;
 `
 
-const AppMinimizeButton = () => {
+const AppMinimizeButton = ({onMinimize}) => {
   const app = useApplicationContext()
   if (app.canMinimize === null) return null
-  const {taskbarRef} = app
 
-  return <MinimizeButton disabled={app.canMinimize === false} onClick={() => {}} />
+  return (
+    <MinimizeButton
+      disabled={app.canMinimize === false}
+      onClick={app.toggleMinimize}
+      onTouchStart={app.toggleMinimize}
+    />
+  )
 }
 
 const AppMaximizeButton = () => {
@@ -98,8 +103,8 @@ export const DEFAULT_TITLEBAR_BUTTONS = (
   </>
 )
 
-export const TitleBar = React.forwardRef(({active, icon, title, buttons}, ref) => (
-  <StyledTitleBar ref={ref} active={active}>
+export const TitleBar = React.forwardRef(({className, active, icon, title, buttons}, ref) => (
+  <StyledTitleBar className={className} ref={ref} active={active}>
     <Icon src={icon} />
     <Title>{title}</Title>
     <div>{buttons}</div>
