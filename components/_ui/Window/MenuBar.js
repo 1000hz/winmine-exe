@@ -1,5 +1,8 @@
 import styled from "styled-components"
 
+export const MenuBar = styled.div`
+  display: flex;
+`
 export const MenuBarItem = styled.button.attrs({
   type: "button"
 })`
@@ -19,10 +22,6 @@ export const MenuBarItem = styled.button.attrs({
   :disabled {
     color: ${props => props.theme.colors.gray[1]};
   }
-`
-
-export const MenuBar = styled.div`
-  display: flex;
 `
 
 export default MenuBar
