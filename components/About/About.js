@@ -104,6 +104,7 @@ const About = () => {
             />
           </SocialLinksContainer>
           <TitleText as={Subheading}>@1000hz</TitleText>
+          <Text>Powered by Cloudflare Workers</Text>
         </Content>
         <Picture alt="Cina Saffary" src={isHovering ? CINA_KID : CINA} />
       </Container>
