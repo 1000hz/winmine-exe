@@ -1,0 +1,8 @@
+account_id = "46567fa2c1f917369fdeac92ce7c1467"
+name = "winmine-exe"
+type = "webpack"
+workers_dev = true
+
+[site]
+bucket = "dist"
+entry-point = "workers-site"

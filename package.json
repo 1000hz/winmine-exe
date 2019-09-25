@@ -12,7 +12,8 @@
     "start": "next start",
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
-    "now-build": "next build && next export -o dist"
+    "now-build": "next build && next export -o dist",
+    "wrangler-publish": "yarn now-build && wrangler publish"
   },
   "dependencies": {
     "invariant": "^2.2.4",
