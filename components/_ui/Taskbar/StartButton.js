@@ -32,7 +32,7 @@ const StartButton = () => {
   const startupSound = useAudio("/static/sounds/startup.mp3")
   const onClick = useCallback(
     () => (startupSound.paused ? startupSound.play() : startupSound.load())
-  )
+  , [startupSound])
 
   return (
     <StyledStartButton onClick={onClick}>
