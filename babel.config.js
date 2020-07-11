@@ -1,17 +1,9 @@
 module.exports = {
   env: {
-    development: {
-      plugins: ["babel-plugin-styled-components"],
-      presets: ["next/babel"]
-    },
-    production: {
-      plugins: ["babel-plugin-styled-components"],
-      presets: ["next/babel"]
-    },
     test: {
-      plugins: ["babel-plugin-styled-components"],
-      presets: [["@babel/preset-env"], "@babel/preset-react"]
+      presets: ["@babel/preset-env", "@babel/preset-react"]
     }
   },
-  plugins: ["babel-plugin-root-import"]
+  plugins: ["babel-plugin-styled-components", "babel-plugin-root-import"],
+  presets: ["next/babel"]
 }
