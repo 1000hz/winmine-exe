@@ -26,6 +26,10 @@ const Windows95 = styled.div`
     cursor: inherit;
   }
 
+  button {
+    font-size: ${win95Theme.fontSizes[0]};
+  }
+
   img {
     image-rendering: pixelated;
   }
