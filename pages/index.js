@@ -1,11 +1,11 @@
 import {useEffect} from "react"
-import styled, {ThemeProvider, keyframes} from "styled-components"
+import styled, {ThemeProvider} from "styled-components"
 import win95Theme from "~/lib/win95Theme"
 import cursorLoadAnimation from "~/lib/cursorLoadAnimation"
+import useMouseButtons from "~/lib/useMouseButtons"
+import usePreventImageDragGhost from "~/lib/usePreventImageDragGhost"
 import Desktop from "~/components/Desktop"
 import TaskManager from "~/components/TaskManager"
-import useMouseButtonIdentifier from "~/lib/useMouseButtonIdentifier"
-import usePreventImageDragGhost from "~/lib/usePreventImageDragGhost"
 
 const Windows95 = styled.div`
   position: fixed;
@@ -40,8 +40,20 @@ const Windows95 = styled.div`
 `
 
 const Index = () => {
-  useMouseButtonIdentifier()
   usePreventImageDragGhost()
+
+  const {isLeftClicking, isRightClicking, isMiddleClicking} = useMouseButtons()
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      isLeftClicking && document.body.classList.add("isLeftClicking")
+      isRightClicking && document.body.classList.add("isRightClicking")
+      isMiddleClicking && document.body.classList.add("isMiddleClicking")
+
+      return () => {
+        document.body.classList.remove("isLeftClicking", "isMiddleClicking", "isRightClicking")
+      }
+    }
+  }, [isLeftClicking, isRightClicking, isMiddleClicking])
 
   return (
     <Windows95>
