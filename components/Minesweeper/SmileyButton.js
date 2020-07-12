@@ -1,7 +1,7 @@
 import {useRef} from "react"
 import styled from "styled-components"
 import {SmileyHappy, SmileySurprise, SmileyDead, SmileySunglasses} from "./Icons"
-import useActive from "~/lib/useActive"
+import useMouseButtons from "~/lib/useMouseButtons"
 
 const Button = styled.button.attrs({
   type: "button"
@@ -31,10 +31,9 @@ const Button = styled.button.attrs({
       -1px -1px ${props => props.theme.colors.gray[1]};
   }
 `
-const SmileyButton = ({gameRef, exploded, won, children, ...props}) => {
+const SmileyButton = ({isClickingGame, exploded, won, children, ...props}) => {
   const ref = useRef()
-  const isClickingButton = useActive(ref)
-  const isClickingGame = useActive(gameRef)
+  const {isLeftClicking: isClickingButton} = useMouseButtons(ref)
 
   return (
     <Button ref={ref} {...props}>
