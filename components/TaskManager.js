@@ -1,19 +1,16 @@
-import React, {useState, useLayoutEffect} from "react"
+import React, {useState, useEffect} from "react"
 import id from "~/lib/id"
 
 export const TaskManagerContext = React.createContext({})
 
 function useApplicationLoading() {
   const [isLoadingApplication, setIsLoadingApplication] = useState(false)
-  useLayoutEffect(
-    () => {
-      if (typeof document !== "undefined") {
-        const method = isLoadingApplication ? "add" : "remove"
-        document.body.classList[method]("isLoadingApplication")
-      }
-    },
-    [isLoadingApplication]
-  )
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const method = isLoadingApplication ? "add" : "remove"
+      document.body.classList[method]("isLoadingApplication")
+    }
+  }, [isLoadingApplication])
 
   return setIsLoadingApplication
 }
