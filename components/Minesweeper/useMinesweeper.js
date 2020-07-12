@@ -16,7 +16,13 @@ const useMinesweeper = settings => {
   const handlers = {
     onSquareMouseUp: id => e => {
       if (e.button === 0) {
-        dispatch({type: "REVEAL_SQUARE", payload: {id}})
+        e.buttons === 2
+          ? dispatch({type: "REVEAL_BULK_SQUARES", payload: {id}})
+          : dispatch({type: "REVEAL_SQUARE", payload: {id}})
+      }
+
+      if (e.button === 1 && e.buttons === 0) {
+        dispatch({type: "REVEAL_BULK_SQUARES", payload: {id}})
       }
     },
     onSquareContextMenu: id => e => {

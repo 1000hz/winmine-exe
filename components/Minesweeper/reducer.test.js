@@ -59,7 +59,7 @@ describe("REVEAL_SQUARE", () => {
     expect(nextState.squares[0].mine).toBeTruthy()
     expect(nextState.squares[1].mine).toBeFalsy()
     expect(state.exploded).toBeNull()
-    expect(nextState.exploded).toBe(0)
+    expect(nextState.exploded[0]).toBe(0)
   })
 
   test("revealing a mine reveals all other mines", () => {
@@ -121,7 +121,75 @@ describe("REVEAL_SQUARE", () => {
 
   test("revealing a square after the game has been lost is a no-op", () => {
     const state = generateBoardState(5, 5, [0])
-    state.exploded = 0
+    state.exploded = [0]
+    const nextState = reducer(state, action(5))
+    expect(nextState).toBe(state)
+  })
+})
+
+describe("REVEAL_BULK_SQUARES", () => {
+  const action = id => ({type: "REVEAL_BULK_SQUARES", payload: {id}})
+
+  test("does nothing if number of flags doesn't match surrounding mines", () => {
+    const state = generateBoardState(5, 5, [0])
+    state.flags[0] = true
+    state.flags[1] = true
+    const nextState = reducer(state, action(5))
+    expect(state).toBe(nextState)
+  })
+
+  test("does nothing if square is not already revealed", () => {
+    const state = generateBoardState(5, 5, [0, 24])
+    state.flags[0] = true
+    const nextState = reducer(state, action(1))
+    expect(state).toBe(nextState)
+  })
+
+  test("reveals surrounding squares if all surrounding flags are correct and this square is already revealed", () => {
+    const state = generateBoardState(5, 5, [0, 18])
+    state.revealed[1] = true
+    state.flags[0] = true
+    const nextState = reducer(state, action(1))
+    expect(nextState.revealed[2]).toBe(true)
+    expect(nextState.revealed[20]).toBe(true)
+    expect(nextState.revealed[19]).toBe(undefined)
+  })
+
+  test("blows up if surrounding flags are wrong", () => {
+    const state = generateBoardState(5, 5, [0, 5, 2])
+    state.revealed[1] = true
+    state.flags[2] = true // ✅
+    state.flags[6] = true // ❌
+    state.flags[7] = true // ❌
+    const nextState = reducer(state, action(1))
+    expect(nextState.exploded).toEqual([0, 5])
+  })
+
+  test("revealing all safe squares wins the game", () => {
+    const state = generateBoardState(5, 5, [0, 24])
+    state.revealed[1] = true
+    state.flags[0] = true
+    const nextState = reducer(state, action(1))
+    expect(nextState.won).toBeTruthy()
+  })
+
+  test("revealing a flagged square is a no-op", () => {
+    const state = generateBoardState(5, 5, [0])
+    state.flags[5] = true
+    const nextState = reducer(state, action(5))
+    expect(nextState).toBe(state)
+  })
+
+  test("revealing a square after the game has been won is a no-op", () => {
+    const state = generateBoardState(5, 5, [0])
+    state.won = true
+    const nextState = reducer(state, action(5))
+    expect(nextState).toBe(state)
+  })
+
+  test("revealing a square after the game has been lost is a no-op", () => {
+    const state = generateBoardState(5, 5, [0])
+    state.exploded = [0]
     const nextState = reducer(state, action(5))
     expect(nextState).toBe(state)
   })
@@ -180,7 +248,7 @@ describe("UPDATE_TIME", () => {
     expect(state.time).toBe(500)
     state = reducer({time: 500, won: true}, {type: "UPDATE_TIME"})
     expect(state.time).toBe(500)
-    state = reducer({time: 500, exploded: 5}, {type: "UPDATE_TIME"})
+    state = reducer({time: 500, exploded: [5]}, {type: "UPDATE_TIME"})
     expect(state.time).toBe(500)
   })
 })

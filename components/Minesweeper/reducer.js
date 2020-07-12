@@ -45,6 +45,28 @@ export const reducer = handleActions({
 
     return state
   },
+  REVEAL_BULK_SQUARES: (state, action) => {
+    const {id} = action.payload
+
+    if (state.won || state.exploded != null || !state.revealed[id]) return state
+
+    const current = state.squares[id]
+    const flaggedNeighbors = current.neighbors.filter(square => state.flags[square.id])
+
+    if (flaggedNeighbors.length !== current.surroundingMines) return state
+
+    current.neighbors.forEach(square => {
+      if (!state.flags[square.id]) {
+        state = square.mine
+          ? explodeAndRevealMines(state, square.id)
+          : revealSafeNeighbors(revealSquare(state, square.id), square.id)
+      }
+    })
+
+    state = select(state).isEverySafeSquareRevealed() ? winGame(state) : state
+
+    return state
+  },
   TOGGLE_FLAG: (state, action) => {
     const {id} = action.payload
     const flags = [...state.flags]
@@ -136,7 +158,7 @@ function explodeAndRevealMines(state, id) {
   return {
     ...state,
     revealed,
-    exploded: id
+    exploded: state.exploded ? [...state.exploded, id] : [id]
   }
 }
 

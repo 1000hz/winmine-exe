@@ -1,12 +1,12 @@
-import {useState, useMemo, useCallback} from "react"
+import {useState, useEffect, useMemo, useRef} from "react"
 import styled from "styled-components"
+import useMouseButtons from "~/lib/useMouseButtons"
 import Window from "~/components/_ui/Window/Window"
 import Board from "./Board"
 import SmileyButton from "./SmileyButton"
 import Square from "./Square"
 import SevenSegmentDisplay from "./SevenSegmentDisplay"
 import useMinesweeper from "./useMinesweeper"
-import useActive from "~/lib/useActive"
 
 const Well = styled.div`
   background: ${props => props.theme.colors.gray[2]};
@@ -48,9 +48,14 @@ const Minesweeper = () => {
   const {state, handlers} = useMinesweeper(settings)
   const {squares, revealed, exploded, won, flags, questions, time} = state
   const flagCount = useMemo(() => flags.filter(_ => _).length, [flags])
-  const gameRef = React.useRef(null)
-  const boardRef = React.useRef(null)
-  const isBoardClicked = useActive(boardRef)
+  const gameRef = useRef(null)
+  const [hoveredSquare, setHoveredSquare] = useState(null)
+  const {isLeftClicking, isRightClicking, isMiddleClicking} = useMouseButtons(gameRef)
+  const isChording = (isLeftClicking && isRightClicking) || isMiddleClicking
+
+  useEffect(() => {
+    setHoveredSquare(null)
+  }, [squares, exploded, won])
 
   return (
     <Window
@@ -60,11 +65,18 @@ const Minesweeper = () => {
       y={200}
       menuItems={["Game", "Help"]}
     >
-      <Well ref={gameRef} outset depth={3} margin="0 2px 0 0">
+      <Well
+        ref={gameRef}
+        outset
+        depth={3}
+        margin="0 2px 0 0"
+        onClick={hoveredSquare && handlers.onSquareMouseUp(hoveredSquare.id)}
+        onAuxClick={hoveredSquare && handlers.onSquareMouseUp(hoveredSquare.id)}
+      >
         <StatusWell depth={2} margin="6px" padding="4px 7px 4px 5px">
           <SevenSegmentDisplay value={settings.mineCount - flagCount} />
           <SmileyButton
-            gameRef={gameRef}
+            isClickingGame={isLeftClicking}
             exploded={exploded != null}
             won={won}
             onClick={handlers.onSmileyButtonClick}
@@ -72,19 +84,28 @@ const Minesweeper = () => {
           <SevenSegmentDisplay value={time} />
         </StatusWell>
         <Well depth={3} margin="6px">
-          <Board ref={boardRef} width={settings.width} height={settings.height}>
+          <Board
+            width={settings.width}
+            height={settings.height}
+            onMouseOut={e => setHoveredSquare(null)}
+          >
             {squares.map((square, i) => (
               <Square
                 key={i}
                 square={square}
                 disabled={exploded != null || won}
-                exploded={i === exploded}
+                exploded={exploded ? exploded.includes(i) : false}
+                pressed={
+                  ((isLeftClicking || isChording) && hoveredSquare === square) ||
+                  (isChording && hoveredSquare?.neighbors.includes(square))
+                }
                 revealed={revealed[i]}
                 flag={flags[i]}
                 question={questions[i]}
-                onMouseUp={useCallback(handlers.onSquareMouseUp(i), [i])}
-                onContextMenu={useCallback(handlers.onSquareContextMenu(i), [i])}
-                isBoardClicked={isBoardClicked}
+                onMouseEnter={e => setHoveredSquare(square)}
+                onContextMenu={
+                  isLeftClicking || isChording ? undefined : handlers.onSquareContextMenu(i)
+                }
               />
             ))}
           </Board>

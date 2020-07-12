@@ -1,6 +1,6 @@
 import React from "react"
 import styled, {css} from "styled-components"
-import Board, {squareSize} from "./Board"
+import {squareSize} from "./Board"
 import {MineCount, Mine, Flag, Question, X} from "./Icons"
 
 export const borderStyles = {
@@ -10,15 +10,13 @@ export const borderStyles = {
       inset 1px 1px ${props => props.theme.colors.gray[3]},
       inset -2px -2px ${props => props.theme.colors.gray[1]};
   `,
-  revealed: css`
+  pressed: css`
     border: 1px solid transparent;
     border-right: 1px dotted ${props => props.theme.colors.gray[0]};
     border-bottom: 1px dotted ${props => props.theme.colors.gray[0]};
     box-shadow: none;
   `
 }
-
-const border = ({revealed}) => (revealed ? borderStyles.revealed : borderStyles.initial)
 
 const StyledSquare = styled.button.attrs({
   type: "button",
@@ -32,31 +30,19 @@ const StyledSquare = styled.button.attrs({
   padding: 0;
   background-color: ${props =>
     props.exploded ? props.theme.colors.red : props.theme.colors.gray[2]};
-  ${border};
+
+  ${({pressed}) => (pressed ? borderStyles.pressed : borderStyles.initial)};
+
   line-height: 1;
   text-align: center;
   font-size: 12px;
   font-weight: bold;
   outline: 0;
   user-select: none;
-
-  .isLeftClicking ${Board}:active &:hover {
-    ${props => (props.flag ? "" : borderStyles.revealed)};
-  }
 `
 
 const Square = React.memo(
-  ({
-    onMouseUp,
-    onContextMenu,
-    square,
-    flag,
-    question,
-    revealed,
-    exploded,
-    disabled,
-    isBoardClicked
-  }) => {
+  ({square, flag, question, pressed, revealed, exploded, disabled, ...props}) => {
     const child =
       disabled && flag && !square.mine ? (
         <X />
@@ -74,9 +60,8 @@ const Square = React.memo(
 
     return (
       <StyledSquare
-        onMouseUp={isBoardClicked ? onMouseUp : undefined}
-        onContextMenu={onContextMenu}
-        revealed={(revealed && !flag) || (disabled && flag && !square.mine)}
+        {...props}
+        pressed={((pressed || revealed) && !flag) || (disabled && flag && !square.mine)}
         flag={flag}
         exploded={exploded}
         disabled={disabled}
