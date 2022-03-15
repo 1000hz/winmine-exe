@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "invariant": "^2.2.4",
-    "lodash-es": "^4.17.15",
+    "lodash-es": "^4.17.21",
     "next": "^9.4.4",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
