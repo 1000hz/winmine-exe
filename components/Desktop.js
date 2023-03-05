@@ -8,6 +8,8 @@ import useEventListener from "~/lib/useEventListener"
 import useTaskManager from "~/lib/useTaskManager"
 import useWindowManager from "~/lib/useWindowManager"
 
+import imgGithub from "~/components/About/images/github.png"
+
 const StyledDesktop = styled.div`
   display: grid;
   grid-auto-columns: 75px;
@@ -20,7 +22,7 @@ const icons = (
     <ApplicationIcon application={Minesweeper} />
     <ApplicationIcon application={About} />
     <IconWithLabel
-      icon={require("~/components/About/images/github.png")}
+      icon={imgGithub.src}
       title="GitHub Repo"
       onOpen={() => window.open("https://github.com/1000hz/winmine-exe")}
     />
@@ -31,7 +33,7 @@ const Desktop = () => {
   const {tasks, activeTask} = useTaskManager()
   const windows = useWindowManager(tasks, activeTask)
 
-  useEventListener(global.document, "contextmenu", e => e.preventDefault())
+  useEventListener(global.document, "contextmenu", (e) => e.preventDefault())
 
   return (
     <>

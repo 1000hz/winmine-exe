@@ -1,6 +1,13 @@
+import {forwardRef} from "react"
 import styled from "styled-components"
 import useApplicationContext from "~/lib/useApplicationContext"
 import useTaskManager from "~/lib/useTaskManager"
+
+import imgMinimize from "./images/minimize.png"
+import imgMaximize from "./images/maximize.png"
+import imgMaximizeDisabled from "./images/maximize-disabled.png"
+import imgHelp from "./images/help.png"
+import imgClose from "./images/close.png"
 
 const StyledTitleBar = styled.div`
   display: grid;
@@ -9,8 +16,8 @@ const StyledTitleBar = styled.div`
   justify-items: end;
   height: 18px;
   padding: 1px 3px 2px 2px;
-  color: ${props => (props.active ? props.theme.colors.gray[3] : props.theme.colors.gray[2])};
-  background: ${props => (props.active ? props.theme.colors.navy : props.theme.colors.gray[1])};
+  color: ${(props) => (props.active ? props.theme.colors.gray[3] : props.theme.colors.gray[2])};
+  background: ${(props) => (props.active ? props.theme.colors.navy : props.theme.colors.gray[1])};
 `
 
 const Icon = styled.img`
@@ -32,40 +39,39 @@ const TitleBarButton = styled.button`
   padding: 2px;
   width: 16px;
   height: 14px;
-  font-family: ${props => props.theme.fontFamilies.default};
+  font-family: ${(props) => props.theme.fontFamilies.default};
   font-size: 8px;
-  background: ${props => props.theme.colors.gray[2]};
+  background: ${(props) => props.theme.colors.gray[2]};
   background-size: 13px 11px;
   background-position: 1px 1px;
   border: 0;
-  box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[0]},
-    inset 1px 1px 0 ${props => props.theme.colors.gray[3]},
-    inset -2px -2px 0 ${props => props.theme.colors.gray[1]};
+  box-shadow: inset -1px -1px 0 ${(props) => props.theme.colors.gray[0]},
+    inset 1px 1px 0 ${(props) => props.theme.colors.gray[3]},
+    inset -2px -2px 0 ${(props) => props.theme.colors.gray[1]};
   outline: 0;
 
   .isLeftClicking &:active:hover {
     padding: 3px 1px 1px 3px;
-    box-shadow: inset -1px -1px 0 ${props => props.theme.colors.gray[3]},
-      inset 1px 1px 0 ${props => props.theme.colors.gray[0]},
-      inset -2px -2px 0 ${props => props.theme.colors.gray[2]},
-      inset 2px 2px 0 ${props => props.theme.colors.gray[1]};
+    box-shadow: inset -1px -1px 0 ${(props) => props.theme.colors.gray[3]},
+      inset 1px 1px 0 ${(props) => props.theme.colors.gray[0]},
+      inset -2px -2px 0 ${(props) => props.theme.colors.gray[2]},
+      inset 2px 2px 0 ${(props) => props.theme.colors.gray[1]};
     background-position: 2px 2px;
     vertical-align: top;
   }
 `
 
 const MinimizeButton = styled(TitleBarButton)`
-  background-image: url(${require("./images/minimize.png")});
+  background-image: url(${imgMinimize.src});
 `
 const MaximizeButton = styled(TitleBarButton)`
-  background-image: url(${({disabled}) =>
-    require(`./images/maximize${disabled ? "-disabled" : ""}.png`)});
+  background-image: url(${({disabled}) => (disabled ? imgMaximizeDisabled.src : imgMaximize.src)});
 `
 const HelpButton = styled(TitleBarButton)`
-  background-image: url(${require("./images/help.png")});
+  background-image: url(${imgHelp.src});
 `
 const CloseButton = styled(TitleBarButton)`
-  background-image: url(${require("./images/close.png")});
+  background-image: url(${imgClose.src});
   margin-left: 2px;
 `
 
@@ -103,7 +109,7 @@ export const DEFAULT_TITLEBAR_BUTTONS = (
   </>
 )
 
-export const TitleBar = React.forwardRef(({className, active, icon, title, buttons}, ref) => (
+export const TitleBar = forwardRef(({className, active, icon, title, buttons}, ref) => (
   <StyledTitleBar className={className} ref={ref} active={active}>
     <Icon src={icon} />
     <Title>{title}</Title>

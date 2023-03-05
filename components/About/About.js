@@ -4,8 +4,13 @@ import Window from "~/components/_ui/Window/Window"
 import Text, {TitleText} from "~/components/_ui/Text"
 import useHover from "~/lib/useHover"
 
-const CINA = require("./images/cina.png")
-const CINA_KID = require("./images/cina-kid.png")
+import imgCina from "./images/cina.png"
+import imgCinaKid from "./images/cina-kid.png"
+import imgIconSm from "./images/icon-sm.png"
+import imgTwitter from "./images/twitter.png"
+import imgGitHub from "./images/github.png"
+import imgLetterboxd from "./images/letterboxd.png"
+import imgSoundCloud from "./images/soundcloud.png"
 
 const Picture = styled.img`
   align-self: flex-start;
@@ -36,19 +41,18 @@ const Content = styled.div`
   width: 220px;
   margin-right: 20px;
   padding-right: 20px;
-  color: ${props => props.theme.colors.gray[0]};
-  box-shadow: inset -1px 0 ${props => props.theme.colors.gray[3]},
-    inset -2px 0 ${props => props.theme.colors.gray[1]};
+  color: ${(props) => props.theme.colors.gray[0]};
+  box-shadow: inset -1px 0 ${(props) => props.theme.colors.gray[3]},
+    inset -2px 0 ${(props) => props.theme.colors.gray[1]};
 `
 
 const Link = styled.a`
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  color: ${props => props.theme.colors.blue};
+  color: ${(props) => props.theme.colors.blue};
   text-decoration: underline;
-  cursor: ${props => props.theme.cursors.pointer};
-  cursor: ${props => props.theme.cursors.webkitPointer};
+  cursor: ${(props) => props.theme.cursors.pointer};
 `
 
 const Logo = styled.img`
@@ -74,7 +78,7 @@ const About = () => {
   const isHovering = useHover(hoverRef)
 
   return (
-    <Window title="About" resizable={true} icon={require("./images/icon-sm.png")}>
+    <Window title="About" resizable={true} icon={imgIconSm.src}>
       <Container>
         <Content>
           <Text>
@@ -84,28 +88,24 @@ const About = () => {
           <SocialLinksContainer>
             <SocialLink
               alt="Twitter Logo"
-              icon={require("./images/twitter.png")}
+              icon={imgTwitter.src}
               href="https://twitter.com/1000hz"
             />
-            <SocialLink
-              alt="Github Logo"
-              icon={require("./images/github.png")}
-              href="https://github.com/1000hz"
-            />
+            <SocialLink alt="Github Logo" icon={imgGitHub.src} href="https://github.com/1000hz" />
             <SocialLink
               alt="Letterboxd Logo"
-              icon={require("./images/letterboxd.png")}
+              icon={imgLetterboxd.src}
               href="https://letterboxd.com/1000hz"
             />
             <SocialLink
-              alt="Soundcloud Logo"
-              icon={require("./images/soundcloud.png")}
+              alt="SoundCloud Logo"
+              icon={imgSoundCloud.src}
               href="https://soundcloud.com/cinasaffary"
             />
           </SocialLinksContainer>
           <TitleText as={Subheading}>@1000hz</TitleText>
         </Content>
-        <Picture alt="Cina Saffary" src={isHovering ? CINA_KID : CINA} />
+        <Picture alt="Cina Saffary" src={isHovering ? imgCinaKid.src : imgCina.src} />
       </Container>
     </Window>
   )
