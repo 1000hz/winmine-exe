@@ -21,10 +21,12 @@ const GlobalStyles = createGlobalStyle`
 
   button {
     font-size: ${(props) => props.theme.fontSizes[0]};
+    color: inherit;
   }
 
   img {
     image-rendering: pixelated;
+    -webkit-touch-callout: none;
   }
 `
 
