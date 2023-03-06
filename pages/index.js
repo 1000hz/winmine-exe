@@ -1,7 +1,7 @@
 import {useEffect} from "react"
 import Head from "next/head"
 import styled, {createGlobalStyle, ThemeProvider} from "styled-components"
-import win95Theme from "~/lib/win95Theme"
+import win95Theme, {preloadImages} from "~/lib/win95Theme"
 import cursorLoadAnimation from "~/lib/cursorLoadAnimation"
 import useMouseButtons from "~/lib/useMouseButtons"
 import usePreventImageDragGhost from "~/lib/usePreventImageDragGhost"
@@ -71,6 +71,9 @@ const Index = () => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="shortcut icon" href="/favicon.ico" />
+        {Object.entries(preloadImages).map(([key, img]) => (
+          <link rel="preload" as="image" href={img.src} key={key} />
+        ))}
         <style
           dangerouslySetInnerHTML={{
             __html: win95Theme.fontFaces["MS Sans Serif"]
